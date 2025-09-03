@@ -19,6 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "RitmoFitApp"
+rootProject.name = "RitmoFit"
 include(":app")
- 

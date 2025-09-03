@@ -1,4 +1,4 @@
-package com.grupo12.ritmofit;
+package com.example.ritmofit;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.grupo12.ritmofit", appContext.getPackageName());
+        assertEquals("com.example.ritmofit", appContext.getPackageName());
     }
 }

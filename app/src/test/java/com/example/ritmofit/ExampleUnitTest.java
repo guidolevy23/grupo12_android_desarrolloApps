@@ -1,4 +1,4 @@
-package com.grupo12.ritmofit;
+package com.example.ritmofit;
 
 import org.junit.Test;
 
