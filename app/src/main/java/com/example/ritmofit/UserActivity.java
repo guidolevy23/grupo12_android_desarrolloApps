@@ -17,8 +17,8 @@ public class UserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user);
 
 
-        TextView texto = findViewById(R.id.textView);
-        String mensaje = "HOLAAAAAAAA";
-        texto.setText(mensaje);
+//        TextView texto = findViewById(R.id.textView);
+//        String mensaje = "HOLAAAAAAAA";
+//        texto.setText(mensaje);
         };
 }
