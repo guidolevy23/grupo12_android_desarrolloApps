@@ -49,10 +49,11 @@ public class NetworkModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient client) {
         return new Retrofit.Builder()
-                .baseUrl("https://pokeapi.co/api/v2/")
+                .baseUrl("http://10.0.2.2:8080/") // ← localhost para emulador
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
+
 
 }

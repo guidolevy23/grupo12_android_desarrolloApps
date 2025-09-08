@@ -1,27 +1,33 @@
 package com.example.ritmofit;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+import com.example.ritmofit.SimpleAdapter;
 
-import androidx.activity.EdgeToEdge;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerClases;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        Button miBoton = findViewById(R.id.boton);
 
-        miBoton.setOnClickListener(v ->{
-            startActivity(new android.content.Intent(MainActivity.this,UserActivity.class));
-        });
+        recyclerClases = findViewById(R.id.recyclerClases);
+        recyclerClases.setLayoutManager(new LinearLayoutManager(this));
+
+        // TODO: traer de backend con Retrofit
+        List<String> clases = new ArrayList<>();
+        clases.add("Funcional - Palermo - 18:00");
+        clases.add("Yoga - Belgrano - 19:00");
+
+        recyclerClases.setAdapter(new SimpleAdapter(clases));
     }
 }

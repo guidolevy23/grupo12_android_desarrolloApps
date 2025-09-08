@@ -1,5 +1,6 @@
 package com.example.ritmofit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,24 +19,23 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Referencias a los elementos del layout
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextOtp = findViewById(R.id.editTextOtp);
         buttonLogin = findViewById(R.id.buttonLogin);
 
-        // Acción al presionar el botón
         buttonLogin.setOnClickListener(v -> {
             String email = editTextEmail.getText().toString().trim();
             String otp = editTextOtp.getText().toString().trim();
 
             if (email.isEmpty() || otp.isEmpty()) {
-                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Completa los campos", Toast.LENGTH_SHORT).show();
             } else {
-                // Por ahora solo mostramos lo ingresado
-                Toast.makeText(this, "Email: " + email + "\nOTP: " + otp, Toast.LENGTH_LONG).show();
-
-                // Más adelante acá iría la llamada al backend con Retrofit
-                // y si es correcto -> abrir UserActivity
+                // TODO: llamada real a backend con Retrofit
+                Intent intent = new Intent(LoginActivity.this, UserActivity.class);
+                intent.putExtra("nombre", "Usuario de prueba");
+                intent.putExtra("email", email);
+                startActivity(intent);
+                finish();
             }
         });
     }

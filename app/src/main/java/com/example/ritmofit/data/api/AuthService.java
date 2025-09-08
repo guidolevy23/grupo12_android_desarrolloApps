@@ -5,6 +5,13 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface AuthService {
-    @POST("auth/verify")   // <-- endpoint de tu backend
-    Call<LoginResponse> login(@Body LoginRequest request);
+
+    // Paso 1: pedir OTP por mail
+    @POST("auth/login")
+    Call<Void> requestOtp(@Body LoginRequest request);
+
+    // Paso 2: verificar OTP y loguear
+    @POST("auth/verify")
+    Call<LoginResponse> verifyOtp(@Body LoginRequest request);
 }
+

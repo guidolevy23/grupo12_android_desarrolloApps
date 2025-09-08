@@ -3,22 +3,25 @@ package com.example.ritmofit;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class UserActivity extends AppCompatActivity {
+
+    private TextView textNombre;
+    private TextView textEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
+        textNombre = findViewById(R.id.textNombre);
+        textEmail = findViewById(R.id.textEmail);
 
-//        TextView texto = findViewById(R.id.textView);
-//        String mensaje = "HOLAAAAAAAA";
-//        texto.setText(mensaje);
-        };
+        String nombre = getIntent().getStringExtra("nombre");
+        String email = getIntent().getStringExtra("email");
+
+        textNombre.setText("Bienvenido, " + nombre);
+        textEmail.setText(email);
+    }
 }
