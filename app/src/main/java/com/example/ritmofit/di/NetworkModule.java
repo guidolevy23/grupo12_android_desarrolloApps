@@ -1,7 +1,6 @@
 package com.example.ritmofit.di;
 
 import android.content.Context;
-import com.example.myfirstapplication.data.api.PokeApiService;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
@@ -56,9 +55,4 @@ public class NetworkModule {
                 .build();
     }
 
-    @Provides
-    @Singleton
-    PokeApiService providePokeApiService(Retrofit retrofit) {
-        return retrofit.create(PokeApiService.class);
-    }
 }
