@@ -1,4 +1,4 @@
-package com.example.ritmofit.data.api;
+package com.example.ritmofit.data.api.model;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
