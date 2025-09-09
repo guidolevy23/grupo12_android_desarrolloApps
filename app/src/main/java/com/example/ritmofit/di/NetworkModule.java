@@ -1,7 +1,6 @@
 package com.example.ritmofit.di;
 
 import android.content.Context;
-import com.example.myfirstapplication.data.api.PokeApiService;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
@@ -50,15 +49,11 @@ public class NetworkModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient client) {
         return new Retrofit.Builder()
-                .baseUrl("https://pokeapi.co/api/v2/")
+                .baseUrl("http://10.0.2.2:8080/") // ← localhost para emulador
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
-    @Provides
-    @Singleton
-    PokeApiService providePokeApiService(Retrofit retrofit) {
-        return retrofit.create(PokeApiService.class);
-    }
+
 }
