@@ -1,6 +1,7 @@
 package com.example.ritmofit;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -32,12 +33,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        handleAuth();
 
         // Set up navigation button click listener
         findViewById(R.id.btnNavigateToCourseMain).setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, CourseMainActivity.class);
             startActivity(intent);
         });
+    }
+
+    private void handleAuth() {
+        SharedPreferences prefs = getSharedPreferences("APP_PREFS", MODE_PRIVATE);
+        String token = prefs.getString("TOKEN", null);
+
+        if (token == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
     }
 }
