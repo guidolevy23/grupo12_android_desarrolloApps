@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">RitmoFit</string>
+    <string name="courses_list">Lista de clases</string>
+    <string name="course_name">Curso Id:</string>
+    <string name="go_to_courses">Vamos a los cursos</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="enter_otp">Ingresa el código</string>
+    <string name="verify_otp">Valida el código</string>
+    <string name="email_help">Ingrese un email</string>
+    <string name="otp_success"> Login exitoso!</string>
+    <string name="otp_help">Ingresa el pin que te enviamos por mail</string>
+    <string name="otp_instruction">Te enviamos un pin a %1$s para validar tu emial, por favor revisa tu casilla de correo</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.ritmofit.data.api;
 
+
 import com.example.ritmofit.data.api.model.auth.*;
 import com.example.ritmofit.data.api.model.usuario.*;
 import com.example.ritmofit.data.api.model.reserva.*;
@@ -53,4 +54,5 @@ public interface RitmoFitApiService {
 
     @GET("/api/historial/{usuarioId}")
     Call<List<AsistenciaResponseDTO>> obtenerHistorial(@Path("usuarioId") Long usuarioId);
+
 }

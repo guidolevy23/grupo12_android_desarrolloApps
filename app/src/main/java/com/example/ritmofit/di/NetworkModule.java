@@ -1,6 +1,9 @@
 package com.example.ritmofit.di;
 
 import android.content.Context;
+
+import com.example.ritmofit.data.api.RitmoFitApiService;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
@@ -49,11 +52,15 @@ public class NetworkModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient client) {
         return new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8080/") // ← localhost para emulador
+                .baseUrl("http://10.0.2.2:8080") // ← localhost para emulador
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
-
+    @Provides
+    @Singleton
+    RitmoFitApiService provideRitmoFitApiService(Retrofit retrofit) {
+        return retrofit.create(RitmoFitApiService.class);
+    }
 }
