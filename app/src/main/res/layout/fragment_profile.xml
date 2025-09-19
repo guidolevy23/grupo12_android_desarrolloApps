@@ -24,7 +24,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.296"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="46dp" />
+        tools:layout_editor_absoluteY="46dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextPhone"
@@ -33,7 +34,8 @@
         android:ems="10"
         android:inputType="phone"
         app:layout_constraintTop_toBottomOf="@+id/editTextText"
-        tools:layout_editor_absoluteX="15dp" />
+        tools:layout_editor_absoluteX="15dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextText"
@@ -44,7 +46,8 @@
         android:inputType="text"
         android:text="Name"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:layout_editor_absoluteX="15dp" />
+        tools:layout_editor_absoluteX="15dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextTextEmailAddress2"
@@ -53,7 +56,8 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintTop_toBottomOf="@+id/editTextPhone"
-        tools:layout_editor_absoluteX="16dp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextTextPostalAddress"
@@ -62,7 +66,8 @@
         android:ems="10"
         android:inputType="textPostalAddress"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress2"
-        tools:layout_editor_absoluteX="14dp" />
+        tools:layout_editor_absoluteX="14dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextDate"
@@ -71,7 +76,8 @@
         android:ems="10"
         android:inputType="date"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPostalAddress"
-        tools:layout_editor_absoluteX="15dp" />
+        tools:layout_editor_absoluteX="15dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextTextPassword"
@@ -80,7 +86,8 @@
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextDate"
-        tools:layout_editor_absoluteX="16dp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextNumber"
@@ -89,7 +96,8 @@
         android:ems="10"
         android:inputType="number"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
-        tools:layout_editor_absoluteX="16dp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button"
@@ -97,6 +105,7 @@
         android:layout_height="46dp"
         android:text="Button"
         app:layout_constraintTop_toBottomOf="@+id/editTextNumber"
-        tools:layout_editor_absoluteX="21dp" />
+        tools:layout_editor_absoluteX="21dp"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

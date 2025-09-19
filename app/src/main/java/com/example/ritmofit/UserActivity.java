@@ -15,8 +15,8 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        textNombre = findViewById(R.id.textNombre);
-        textEmail = findViewById(R.id.textEmail);
+//        textNombre = findViewById(R.id.textNombre);
+//        textEmail = findViewById(R.id.textEmail);
 
         String nombre = getIntent().getStringExtra("nombre");
         String email = getIntent().getStringExtra("email");

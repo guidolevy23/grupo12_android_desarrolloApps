@@ -11,4 +11,6 @@
     <string name="otp_success"> Login exitoso!</string>
     <string name="otp_help">Ingresa el pin que te enviamos por mail</string>
     <string name="otp_instruction">Te enviamos un pin a %1$s para validar tu emial, por favor revisa tu casilla de correo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
