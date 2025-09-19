@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/courseDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_historialFragment"
+            app:destination="@id/historialFragment" />
     </fragment>
 
     <fragment
@@ -24,4 +27,10 @@
             android:name="pokemonId"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/historialFragment"
+        android:name="com.example.ritmofit.ui.historial.HistorialFragment"
+        android:label="Historial"
+        tools:layout="@layout/fragment_historial" />
 </navigation>

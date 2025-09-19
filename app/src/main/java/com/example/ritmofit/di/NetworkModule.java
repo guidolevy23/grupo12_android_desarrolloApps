@@ -3,6 +3,7 @@ package com.example.ritmofit.di;
 import android.content.Context;
 
 import com.example.ritmofit.data.api.RitmoFitApiService;
+import com.example.ritmofit.data.api.model.HistorialService;
 
 import dagger.Module;
 import dagger.Provides;
@@ -62,5 +63,11 @@ public class NetworkModule {
     @Singleton
     RitmoFitApiService provideRitmoFitApiService(Retrofit retrofit) {
         return retrofit.create(RitmoFitApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    HistorialService provideHistorialService(Retrofit retrofit) {
+        return retrofit.create(HistorialService.class);
     }
 }
