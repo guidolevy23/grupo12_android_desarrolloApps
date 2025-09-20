@@ -48,6 +48,8 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.fragment)
+
+    implementation("com.google.android.material:material:1.11.0")
     
     // SwipeRefreshLayout for pull-to-refresh functionality
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
