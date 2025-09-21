@@ -61,6 +61,9 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     implementation("androidx.navigation:navigation-ui:2.7.7")
 
+    // Security Crypto para EncryptedSharedPreferences
+    implementation("androidx.security:security-crypto:1.1.0")
+
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.48")
     annotationProcessor("com.google.dagger:hilt-android-compiler:2.48")

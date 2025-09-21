@@ -18,9 +18,6 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.RitmoFit">
         <activity
-            android:name=".UserActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -30,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CourseMainActivity"
+            android:name=".home.ui.HomeMainActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
@@ -38,7 +35,7 @@
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".auth.ui.AuthActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
     </application>

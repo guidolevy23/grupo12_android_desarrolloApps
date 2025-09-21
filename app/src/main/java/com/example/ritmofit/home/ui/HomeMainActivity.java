@@ -1,27 +1,26 @@
-package com.example.ritmofit;
+package com.example.ritmofit.home.ui;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.ritmofit.R;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class CourseMainActivity extends AppCompatActivity {
-
-    private NavController navController;
+public class HomeMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_main);
+        setContentView(R.layout.home_main_activity);
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment);
+                .findFragmentById(R.id.home_nav_host_fragment);
         if (navHostFragment != null) {
-            navController = navHostFragment.getNavController();
+            navHostFragment.getNavController();
         }
     }
 }

@@ -28,11 +28,4 @@
         android:layout_height="wrap_content"
         android:text="@string/verify_otp"
         android:layout_marginTop="16dp"/>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginTop="20dp"/>
 </LinearLayout>
