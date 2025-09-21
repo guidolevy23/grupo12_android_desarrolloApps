@@ -40,30 +40,31 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     @Override
     public void getAllByName(String name, final CoursesCallback callback) {
-        Call<PageResponse<CoursesResponse>> call = api.getAllBy(name);
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NonNull Call<PageResponse<CoursesResponse>> call,
-                                   @NonNull Response<PageResponse<CoursesResponse>> response) {
-                if (!response.isSuccessful() || response.body() == null) {
-                    callback.onError(new Exception("Error al buscar las clases"));
-                    return;
-                }
-                List<Course> courses = response.body()
-                        .getData()
-                        .getCourses()
-                        .stream()
-                        .map(CourseRepositoryImpl::toModel)
-                        .collect(Collectors.toList());
-                callback.onSuccess(courses);
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<PageResponse<CoursesResponse>> call,
-                                  @NonNull Throwable t) {
-                callback.onError(t);
-            }
-        });
+        callback.onSuccess(List.of());
+//        Call<PageResponse<CoursesResponse>> call = api.getAllBy(name);
+//        call.enqueue(new Callback<>() {
+//            @Override
+//            public void onResponse(@NonNull Call<PageResponse<CoursesResponse>> call,
+//                                   @NonNull Response<PageResponse<CoursesResponse>> response) {
+//                if (!response.isSuccessful() || response.body() == null) {
+//                    callback.onError(new Exception("Error al buscar las clases"));
+//                    return;
+//                }
+//                List<Course> courses = response.body()
+//                        .getData()
+//                        .getCourses()
+//                        .stream()
+//                        .map(CourseRepositoryImpl::toModel)
+//                        .collect(Collectors.toList());
+//                callback.onSuccess(courses);
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<PageResponse<CoursesResponse>> call,
+//                                  @NonNull Throwable t) {
+//                callback.onError(t);
+//            }
+//        });
     }
 
 //    Random random = new Random();
