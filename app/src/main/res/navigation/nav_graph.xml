@@ -36,9 +36,9 @@
 
     <fragment
         android:id="@+id/nav_reservas"
-        android:name="com.example.ritmofit.ReservasFragment"
-        android:label="Reservas"
-        tools:layout="@layout/fragment_reservas" />
+        android:name="com.example.ritmofit.ui.historial.HistorialFragment"
+        android:label="Mis Reservas"
+        tools:layout="@layout/fragment_historial" />
 
     <fragment
         android:id="@+id/nav_perfil"

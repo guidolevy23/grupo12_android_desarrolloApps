@@ -38,12 +38,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         handleAuth();
-
-        // Set up navigation button click listeners
-        findViewById(R.id.btnNavigateToCourseMain).setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, CourseMainActivity.class);
-            startActivity(intent);
-        });
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
         NavHostFragment navHostFragment = (NavHostFragment)
@@ -52,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupWithNavController(bottomNav, navController);
-            // opcional: no recargar el mismo tab si lo tocan de nuevo
             bottomNav.setOnItemReselectedListener(item -> {});
         }
     }
