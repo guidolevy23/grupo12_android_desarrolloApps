@@ -1,5 +1,7 @@
 package com.example.ritmofit;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -10,12 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class ProfileFragment extends Fragment {
 
     public ProfileFragment() {
-        // Constructor vacío requerido
+
     }
 
     @Nullable
@@ -23,12 +26,28 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        EditText nombre = view.findViewById(R.id.editTextText);
-        EditText telefono = view.findViewById(R.id.editTextPhone);
-        EditText email = view.findViewById(R.id.editTextTextEmailAddress2);
-        Button botonEditar = view.findViewById(R.id.button);
+        View v = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        return view;
+        TextView tvNombre    = v.findViewById(R.id.tvNombre);
+        TextView tvTelefono  = v.findViewById(R.id.tvTelefono);
+        TextView tvEmail     = v.findViewById(R.id.tvEmail);
+        TextView tvDireccion = v.findViewById(R.id.tvDireccion);
+        TextView tvFecha     = v.findViewById(R.id.tvFecha);
+
+
+        SharedPreferences prefs = requireContext().getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
+        String nombre   = prefs.getString("USER_NAME",  "—");
+        String telefono = prefs.getString("USER_PHONE", "—");
+        String email    = prefs.getString("USER_EMAIL", "—");
+        String dir      = prefs.getString("USER_ADDR",  "—");
+        String fecha    = prefs.getString("USER_BDAY",  "—");
+
+        tvNombre.setText(nombre);
+        tvTelefono.setText(telefono);
+        tvEmail.setText(email);
+        tvDireccion.setText(dir);
+        tvFecha.setText(fecha);
+
+        return v;
     }
 }
