@@ -60,6 +60,7 @@ dependencies {
     // Navigation
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     implementation("androidx.navigation:navigation-ui:2.7.7")
+    implementation("com.google.android.material:material:1.12.0")
 
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.48")

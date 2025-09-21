@@ -16,7 +16,11 @@ import com.example.ritmofit.model.Clase;
 import com.example.ritmofit.model.User;
 import com.example.ritmofit.services.ClasesService;
 import com.example.ritmofit.services.UsuarioService;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,11 +44,17 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, CourseMainActivity.class);
             startActivity(intent);
         });
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
-        findViewById(R.id.btnNavigateToHistorial).setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, HistorialMainActivity.class);
-            startActivity(intent);
-        });
+        NavHostFragment navHostFragment = (NavHostFragment)
+                getSupportFragmentManager().findFragmentById(R.id.nav_host);
+
+        if (navHostFragment != null) {
+            NavController navController = navHostFragment.getNavController();
+            NavigationUI.setupWithNavController(bottomNav, navController);
+            // opcional: no recargar el mismo tab si lo tocan de nuevo
+            bottomNav.setOnItemReselectedListener(item -> {});
+        }
     }
 
     private void handleAuth() {
