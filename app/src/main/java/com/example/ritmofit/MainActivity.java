@@ -19,10 +19,14 @@ import com.example.ritmofit.model.Clase;
 import com.example.ritmofit.model.User;
 import com.example.ritmofit.services.ClasesService;
 import com.example.ritmofit.services.UsuarioService;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,41 +45,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        handleAuth();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        handleAuth();
+        NavHostFragment navHostFragment = (NavHostFragment)
+                getSupportFragmentManager().findFragmentById(R.id.nav_host);
 
-        Intent intent = new Intent(this, AuthActivity.class);
-        startActivity(intent);
+        if (navHostFragment != null) {
+            NavController navController = navHostFragment.getNavController();
+            NavigationUI.setupWithNavController(bottomNav, navController);
+            bottomNav.setOnItemReselectedListener(item -> {});
+        }
     }
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//        handleAuth();
-//
-//        // Set up navigation button click listeners
-//        findViewById(R.id.btnNavigateToCourseMain).setOnClickListener(view -> {
-//            Intent intent = new Intent(MainActivity.this, CourseMainActivity.class);
-//            startActivity(intent);
-//        });
-//
-//        findViewById(R.id.btnNavigateToHistorial).setOnClickListener(view -> {
-//            Intent intent = new Intent(MainActivity.this, HistorialMainActivity.class);
-//            startActivity(intent);
-//        });
-//    }
-//
-//    private void handleAuth() {
-//        SharedPreferences prefs = getSharedPreferences("APP_PREFS", MODE_PRIVATE);
-//        String token = prefs.getString("TOKEN", null);
-//
-//        if (token == null) {
-//            startActivity(new Intent(this, LoginActivity.class));
-//            finish();
-//        }
-//    }
+    private void handleAuth() {
+        SharedPreferences prefs = getSharedPreferences("APP_PREFS", MODE_PRIVATE);
+        String token = prefs.getString("TOKEN", null);
+
+        if (token == null) {
+            startActivity(new Intent(this, AuthActivity.class));
+            finish();
+        }
+    }
 }

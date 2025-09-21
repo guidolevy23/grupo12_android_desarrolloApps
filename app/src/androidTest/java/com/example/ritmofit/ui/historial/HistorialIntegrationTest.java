@@ -11,7 +11,6 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
-import com.example.ritmofit.HistorialMainActivity;
 import com.example.ritmofit.R;
 
 import org.junit.After;

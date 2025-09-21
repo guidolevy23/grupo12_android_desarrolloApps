@@ -29,8 +29,20 @@
     </fragment>
 
     <fragment
-        android:id="@+id/historialFragment"
+        android:id="@+id/nav_home"
+        android:name="com.example.ritmofit.HomeFragment"
+        android:label="Inicio"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_reservas"
         android:name="com.example.ritmofit.ui.historial.HistorialFragment"
-        android:label="Historial"
+        android:label="Mis Reservas"
         tools:layout="@layout/fragment_historial" />
+
+    <fragment
+        android:id="@+id/nav_perfil"
+        android:name="com.example.ritmofit.ProfileFragment"
+        android:label="Perfil"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

@@ -27,17 +27,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".home.ui.HomeMainActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".HistorialMainActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-        <activity
             android:name=".auth.ui.AuthActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
     </application>
-
 </manifest>
