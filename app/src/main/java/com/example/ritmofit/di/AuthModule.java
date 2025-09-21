@@ -2,6 +2,7 @@ package com.example.ritmofit.di;
 
 import android.content.Context;
 
+import com.example.ritmofit.auth.http.AuthApi;
 import com.example.ritmofit.auth.repository.TokenRepository;
 import com.example.ritmofit.auth.repository.TokenRepositoryImpl;
 

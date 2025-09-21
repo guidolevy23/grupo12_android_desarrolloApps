@@ -1,4 +1,4 @@
-package com.example.ritmofit;
+package com.example.ritmofit.home.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.ritmofit.R;
 
 public class CourseDetailFragment extends Fragment {
 

@@ -1,8 +1,10 @@
-package com.example.ritmofit.services.impl;
+package com.example.ritmofit.home.service;
 
-import com.example.ritmofit.callback.CoursesCallback;
-import com.example.ritmofit.data.repository.CourseRepository;
-import com.example.ritmofit.services.CourseService;
+import com.example.ritmofit.core.DomainCallback;
+import com.example.ritmofit.home.model.Course;
+import com.example.ritmofit.home.repository.CourseRepository;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,7 +20,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void getAllByName(String name, CoursesCallback callback) {
+    public void getAllByName(String name, DomainCallback<List<Course>> callback) {
         repository.getAllByName(name, callback);
     }
 }

@@ -14,7 +14,7 @@
             app:destination="@id/registerFragment" />
         <action
             android:id="@+id/action_loginFragment_to_homeActivity"
-            app:destination="@id/homeActivity" />
+            app:destination="@id/main" />
     </fragment>
 
     <fragment
@@ -40,6 +40,6 @@
     </fragment>
 
     <activity
-        android:id="@+id/homeActivity"
-        android:name="com.example.ritmofit.home.ui.HomeMainActivity" />
+        android:id="@+id/main"
+        android:name="com.example.ritmofit.MainActivity" />
 </navigation>

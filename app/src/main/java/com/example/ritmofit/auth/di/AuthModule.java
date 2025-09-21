@@ -12,7 +12,7 @@ import javax.inject.Singleton;
 
 @Module
 @InstallIn(SingletonComponent.class)
-public abstract class ServiceModule {
+public abstract class AuthModule {
 
     @Binds
     @Singleton

@@ -1,4 +1,4 @@
-package com.example.ritmofit.model;
+package com.example.ritmofit.home.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

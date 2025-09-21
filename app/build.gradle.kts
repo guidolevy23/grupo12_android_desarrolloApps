@@ -82,6 +82,9 @@ dependencies {
     // DataStore
     implementation(libs.datastore.core)
 
+    // EventBus
+    implementation(libs.eventbus)
+
     // Desugaring
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     
@@ -91,7 +94,8 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:5.2.0")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("org.robolectric:robolectric:4.11.1")
-    
+
+
     // Android Testing
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

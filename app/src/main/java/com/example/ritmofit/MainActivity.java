@@ -1,24 +1,16 @@
 package com.example.ritmofit;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.ritmofit.SimpleAdapter;
 
-//import com.example.myfirstapplication.data.repository.PokemonServiceCallBack;
+import com.example.ritmofit.auth.model.UnAuthenticationEvent;
+import com.example.ritmofit.auth.repository.TokenRepository;
 import com.example.ritmofit.auth.ui.AuthActivity;
-import com.example.ritmofit.data.repository.ClasesServiceCallBack;
-import com.example.ritmofit.model.Clase;
-import com.example.ritmofit.model.User;
-import com.example.ritmofit.services.ClasesService;
-import com.example.ritmofit.services.UsuarioService;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.core.graphics.Insets;
@@ -27,18 +19,20 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
+    @Inject
+    TokenRepository tokenRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        handleAuth();
+
         NavHostFragment navHostFragment = (NavHostFragment)
                 getSupportFragmentManager().findFragmentById(R.id.nav_host);
 
@@ -63,13 +57,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void handleAuth() {
-        SharedPreferences prefs = getSharedPreferences("APP_PREFS", MODE_PRIVATE);
-        String token = prefs.getString("TOKEN", null);
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
-        if (token == null) {
-            startActivity(new Intent(this, AuthActivity.class));
-            finish();
+    private void handleAuth() {
+        if (!tokenRepository.hasToken()) {
+            goToLogin();
         }
+    }
+
+    private void goToLogin() {
+        startActivity(new Intent(this, AuthActivity.class));
+        finish();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUnAuthenticationEvent(UnAuthenticationEvent event) {
+        Toast.makeText(this, event.message(), Toast.LENGTH_SHORT).show();
+        goToLogin();
     }
 }

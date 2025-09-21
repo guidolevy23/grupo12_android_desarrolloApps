@@ -14,18 +14,24 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.ritmofit.R;
+import com.example.ritmofit.core.DomainCallback;
+import com.example.ritmofit.home.model.Course;
+import com.example.ritmofit.home.service.CourseService;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class HomeFragment extends Fragment {
 
-//    @Inject
-//    CourseService courseService;
+    @Inject
+    CourseService courseService;
 
     private ListView listView;
     private List<String> coursesToDisplay;
@@ -47,39 +53,38 @@ public class HomeFragment extends Fragment {
                 android.R.layout.simple_list_item_1,
                 coursesToDisplay);
         listView.setAdapter(adapter);
-//        loadCourses();
+        loadCourses();
         listView.setOnItemClickListener((parent, v, position, id) -> {
             String course = coursesToDisplay.get(position);
-
             Bundle args = new Bundle();
             args.putString("courseId", course);
             Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_detailFragment, args);
         });
     }
 
-//    private void loadCourses() {
-//        String searchTerm = "CrossFit"; // se deberia pedir en un form esto
-//        courseService.getAllByName(searchTerm, new CoursesCallback() {
-//            @Override
-//            public void onSuccess(List<Course> courses) {
-//                coursesToDisplay.clear();
-//                coursesToDisplay.addAll(
-//                        courses.stream()
-//                                .map(course -> String.join(" - ",
-//                                        course.getName(),
-//                                        course.getDescription(),
-//                                        course.getProfessor()))
-//                                .collect(Collectors.toList())
-//                );
-//                requireActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
-//            }
-//
-//            @Override
-//            public void onError(Throwable error) {
-//                requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(),
-//                        "Error al cargar las clases: " + error.getMessage(),
-//                        Toast.LENGTH_LONG).show());
-//            }
-//        });
-//    }
+    private void loadCourses() {
+        String searchTerm = "CrossFit"; // se deberia pedir en un form esto
+        courseService.getAllByName(searchTerm, new DomainCallback<>() {
+            @Override
+            public void onSuccess(List<Course> courses) {
+                coursesToDisplay.clear();
+                coursesToDisplay.addAll(
+                        courses.stream()
+                                .map(course -> String.join(" - ",
+                                        course.getName(),
+                                        course.getDescription(),
+                                        course.getProfessor()))
+                                .collect(Collectors.toList())
+                );
+                requireActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(),
+                        "Error al cargar las clases: " + error.getMessage(),
+                        Toast.LENGTH_LONG).show());
+            }
+        });
+    }
 }

@@ -1,12 +1,13 @@
 package com.example.ritmofit.auth.service;
 
-import com.example.ritmofit.auth.model.AuthRequest;
-import com.example.ritmofit.auth.model.AuthResponse;
-import com.example.ritmofit.core.Callback;
+import com.example.ritmofit.auth.model.LoginRequest;
+import com.example.ritmofit.auth.model.LoginResponse;
+import com.example.ritmofit.auth.model.RegisterRequest;
+import com.example.ritmofit.auth.model.RegisterResponse;
+import com.example.ritmofit.core.DomainCallback;
 
 public interface AuthService {
 
-    void register(AuthRequest request, Callback<AuthResponse> callback);
-    void login(AuthRequest request, Callback<AuthResponse> callback);
-
+    void register(RegisterRequest request, DomainCallback<RegisterResponse> callback);
+    void login(LoginRequest request, DomainCallback<LoginResponse> domainCallback);
 }
