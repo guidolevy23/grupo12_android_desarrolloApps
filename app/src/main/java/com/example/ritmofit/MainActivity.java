@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         handleAuth();
 
-        // Set up navigation button click listener
+        // Set up navigation button click listeners
         findViewById(R.id.btnNavigateToCourseMain).setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, CourseMainActivity.class);
             startActivity(intent);

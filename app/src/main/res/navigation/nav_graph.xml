@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/courseDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_historialFragment"
+            app:destination="@id/historialFragment" />
     </fragment>
 
     <fragment
