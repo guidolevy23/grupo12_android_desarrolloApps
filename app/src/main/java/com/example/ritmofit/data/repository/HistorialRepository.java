@@ -12,7 +12,7 @@ import java.util.List;
 public interface HistorialRepository {
 
     /**
-     * Callback interface for historial data operations
+     * DomainCallback interface for historial data operations
      */
     interface HistorialCallback {
         void onSuccess(List<HistorialItem> historialItems);

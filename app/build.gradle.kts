@@ -62,6 +62,9 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:2.7.7")
     implementation("com.google.android.material:material:1.12.0")
 
+    // Security Crypto para EncryptedSharedPreferences
+    implementation("androidx.security:security-crypto:1.1.0")
+
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.48")
     annotationProcessor("com.google.dagger:hilt-android-compiler:2.48")
@@ -79,6 +82,9 @@ dependencies {
     // DataStore
     implementation(libs.datastore.core)
 
+    // EventBus
+    implementation(libs.eventbus)
+
     // Desugaring
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     
@@ -88,7 +94,8 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:5.2.0")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("org.robolectric:robolectric:4.11.1")
-    
+
+
     // Android Testing
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

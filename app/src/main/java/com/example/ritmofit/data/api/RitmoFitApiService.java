@@ -57,7 +57,5 @@ public interface RitmoFitApiService {
     @GET("/api/historial/{usuarioId}")
     Call<List<AsistenciaResponseDTO>> obtenerHistorial(@Path("usuarioId") Long usuarioId);
 
-    // ---------- CURSOS ----------
-    //me tiraba un error porq no encontraba este metodo en la interfaz
-    Call<PageResponse<CoursesResponse>> getAllBy(String name);
+
 }

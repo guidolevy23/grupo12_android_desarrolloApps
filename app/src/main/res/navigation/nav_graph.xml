@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.ritmofit.HomeFragment"
+        android:name="com.example.ritmofit.home.ui.HomeFragment"
         android:label="Pokemon List"
         tools:layout="@layout/fragment_home">
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/courseDetailFragment"
-        android:name="com.example.ritmofit.CourseDetailFragment"
+        android:name="com.example.ritmofit.home.ui.CourseDetailFragment"
         android:label="Pokemon Detail"
         tools:layout="@layout/fragment_course_detail">
         <argument
@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.ritmofit.HomeFragment"
+        android:name="com.example.ritmofit.home.ui.HomeFragment"
         android:label="Inicio"
         tools:layout="@layout/fragment_home" />
 

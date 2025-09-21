@@ -2,6 +2,8 @@ package com.example.ritmofit.di;
 
 import android.content.Context;
 
+import com.example.ritmofit.auth.http.AuthInterceptor;
+import com.example.ritmofit.auth.repository.TokenRepository;
 import com.example.ritmofit.data.api.RitmoFitApiService;
 import com.example.ritmofit.data.api.model.HistorialService;
 
@@ -33,19 +35,18 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient(Cache cache) {
+    OkHttpClient provideOkHttpClient(Cache cache, TokenRepository tokenRepository) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
         return new OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .cache(cache)
-                .addNetworkInterceptor(chain -> {
-                    return chain.proceed(chain.request())
-                            .newBuilder()
-                            .header("Cache-Control", "public, max-age=60") // Cache por 60 segundos
-                            .build();
-                })
+                .addNetworkInterceptor(new AuthInterceptor(tokenRepository))
+                .addNetworkInterceptor(chain -> chain.proceed(chain.request())
+                        .newBuilder()
+                        .header("Cache-Control", "public, max-age=60") // Cache por 60 segundos
+                        .build())
                 .build();
     }
 
