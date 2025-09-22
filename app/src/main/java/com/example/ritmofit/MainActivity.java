@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUnAuthenticationEvent(UnAuthenticationEvent event) {
-        Toast.makeText(this, event.message(), Toast.LENGTH_SHORT).show();
         goToLogin();
     }
 }

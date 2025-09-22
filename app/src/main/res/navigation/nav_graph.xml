@@ -42,7 +42,7 @@
 
     <fragment
         android:id="@+id/nav_perfil"
-        android:name="com.example.ritmofit.ProfileFragment"
+        android:name="com.example.ritmofit.profile.ui.ProfileFragment"
         android:label="Perfil"
         tools:layout="@layout/fragment_profile" />
 </navigation>
