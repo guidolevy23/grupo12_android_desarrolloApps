@@ -68,21 +68,20 @@ public class HomeFragment extends Fragment {
                     LayoutInflater inflater = LayoutInflater.from(getContext());
 
                     for (String courseDisplayString : courseDisplayStrings) {
-                        // Assume list_item_course_material.xml is your Material Design item layout
-                        // This layout should contain a TextView, e.g., R.id.item_course_title
+
+
                         MaterialCardView itemCardView = (MaterialCardView) inflater.inflate(R.layout.fragment_course_detail, coursesContainerLayout, false);
-                        
-                        // Find the TextView within the card.
-                        // You'll need to define R.id.item_course_title in list_item_course_material.xml
+
                         TextView courseTitleTextView = itemCardView.findViewById(R.id.course);
+
+
                         if (courseTitleTextView != null) {
                             courseTitleTextView.setText(courseDisplayString);
                         }
 
                         itemCardView.setOnClickListener(v -> {
                             Bundle args = new Bundle();
-                            // We use the display string as the ID as per previous logic.
-                            // Consider passing the actual Course ID if available and more appropriate.
+
                             args.putString("courseId", courseDisplayString);
                             Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_detailFragment, args);
                         });
