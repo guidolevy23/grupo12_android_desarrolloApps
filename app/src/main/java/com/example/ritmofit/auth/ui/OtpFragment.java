@@ -11,9 +11,11 @@ import androidx.navigation.Navigation;
 
 import com.example.ritmofit.R;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class OtpFragment extends Fragment {
 
-    static final String ARG_EMAIL = "email";
     private String email;
 
     TextView tvOtpInstruction;
@@ -30,7 +32,7 @@ public class OtpFragment extends Fragment {
         btnVerifyOtp = view.findViewById(R.id.btnVerifyOtp);
 
         if (getArguments() != null) {
-            email = getArguments().getString(ARG_EMAIL);
+            email = getArguments().getString("email");
             instructUser(email);
         }
 

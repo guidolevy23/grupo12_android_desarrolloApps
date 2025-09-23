@@ -15,8 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.ritmofit.R;
-import com.example.ritmofit.auth.model.LoginRequest;
-import com.example.ritmofit.auth.model.LoginResponse;
+import com.example.ritmofit.auth.model.Login;
 import com.example.ritmofit.auth.repository.TokenRepository;
 import com.example.ritmofit.auth.service.AuthService;
 import com.example.ritmofit.core.DomainCallback;
@@ -57,14 +56,14 @@ public class LoginFragment extends Fragment {
     }
 
     private void login(View view) {
-        LoginRequest request = new LoginRequest(
+        Login login = new Login(
                 userEditText.getText().toString().trim(),
                 passwordEditText.getText().toString().trim()
         );
-        authService.login(request, new DomainCallback<>() {
+        authService.login(login, new DomainCallback<>() {
             @Override
-            public void onSuccess(LoginResponse result) {
-                tokenRepository.saveToken(result.token());
+            public void onSuccess(String token) {
+                tokenRepository.saveToken(token);
                 Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeActivity);
             }
 

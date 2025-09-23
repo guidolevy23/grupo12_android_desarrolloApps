@@ -2,10 +2,12 @@ package com.example.ritmofit.auth.service;
 
 import androidx.annotation.NonNull;
 
-import com.example.ritmofit.auth.model.LoginRequest;
-import com.example.ritmofit.auth.model.LoginResponse;
-import com.example.ritmofit.auth.model.RegisterRequest;
-import com.example.ritmofit.auth.model.RegisterResponse;
+import com.example.ritmofit.auth.http.api.LoginRequest;
+import com.example.ritmofit.auth.http.api.RegisterRequest;
+import com.example.ritmofit.auth.model.Login;
+import com.example.ritmofit.auth.http.api.LoginResponse;
+import com.example.ritmofit.auth.model.Register;
+import com.example.ritmofit.auth.http.api.RegisterResponse;
 import com.example.ritmofit.auth.http.AuthApi;
 import com.example.ritmofit.core.DomainCallback;
 
@@ -27,12 +29,38 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void register(RegisterRequest request, DomainCallback<RegisterResponse> domainCallback) {
-        domainCallback.onSuccess(new RegisterResponse("test"));
+    public void register(Register register, DomainCallback<String> domainCallback) {
+        RegisterRequest request = new RegisterRequest(
+                register.username(),
+                register.password(),
+                register.name()
+        );
+        Call<RegisterResponse> call = api.register(request);
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(@NonNull Call<RegisterResponse> call,
+                                   @NonNull Response<RegisterResponse> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    domainCallback.onError(new Exception("Error al registrar usuario"));
+                    return;
+                }
+                domainCallback.onSuccess(response.body().message());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<RegisterResponse> call,
+                                  @NonNull Throwable t) {
+                domainCallback.onError(new Exception("Error de red al registrar usuario", t));
+            }
+        });
     }
 
     @Override
-    public void login(LoginRequest request, DomainCallback<LoginResponse> callback) {
+    public void login(Login login, DomainCallback<String> callback) {
+        LoginRequest request = new LoginRequest(
+                login.username(),
+                login.password()
+        );
        Call<LoginResponse> call = api.login(request);
        call.enqueue(new Callback<>() {
               @Override
@@ -42,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
                      callback.onError(new Exception("Error al iniciar sesión"));
                      return;
                 }
-                callback.onSuccess(response.body());
+                callback.onSuccess(response.body().token());
               }
 
               @Override
