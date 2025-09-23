@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.LinearLayout; // Changed from RecyclerView
+import android.widget.TextView;    // Assuming item layout has a TextView
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,9 +17,8 @@ import com.example.ritmofit.R;
 import com.example.ritmofit.core.DomainCallback;
 import com.example.ritmofit.home.model.Course;
 import com.example.ritmofit.home.service.CourseService;
+import com.google.android.material.card.MaterialCardView; // For the item view
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,9 +32,7 @@ public class HomeFragment extends Fragment {
     @Inject
     CourseService courseService;
 
-    private ListView listView;
-    private List<String> coursesToDisplay;
-    private ArrayAdapter<String> adapter;
+    private LinearLayout coursesContainerLayout; // Changed from RecyclerView
 
     @Nullable
     @Override
@@ -47,43 +44,60 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        listView = view.findViewById(R.id.listView);
-        coursesToDisplay = new ArrayList<>();
-        adapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_list_item_1,
-                coursesToDisplay);
-        listView.setAdapter(adapter);
+        coursesContainerLayout = view.findViewById(R.id.coursesContainerLayout); // ID from fragment_home.xml
         loadCourses();
-        listView.setOnItemClickListener((parent, v, position, id) -> {
-            String course = coursesToDisplay.get(position);
-            Bundle args = new Bundle();
-            args.putString("courseId", course);
-            Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_detailFragment, args);
-        });
     }
 
     private void loadCourses() {
-        String searchTerm = "CrossFit"; // se deberia pedir en un form esto
-        courseService.getAllByName(searchTerm, new DomainCallback<>() {
+        String searchTerm = "CrossFit"; // This should ideally come from user input
+        courseService.getAllByName(searchTerm, new DomainCallback<List<Course>>() {
             @Override
             public void onSuccess(List<Course> courses) {
-                coursesToDisplay.clear();
-                coursesToDisplay.addAll(
-                        courses.stream()
-                                .map(course -> String.join(" - ",
-                                        course.getName(),
-                                        course.getDescription(),
-                                        course.getProfessor()))
-                                .collect(Collectors.toList())
-                );
-                requireActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
+                if (getActivity() == null) return;
+
+                List<String> courseDisplayStrings = courses.stream()
+                        .map(course -> String.join(" - ",
+                                course.getName() != null ? course.getName() : "",
+                                course.getDescription() != null ? course.getDescription() : "",
+                                course.getProfessor() != null ? course.getProfessor() : ""))
+                        .collect(Collectors.toList());
+
+                requireActivity().runOnUiThread(() -> {
+                    coursesContainerLayout.removeAllViews(); // Clear previous items
+
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+
+                    for (String courseDisplayString : courseDisplayStrings) {
+                        // Assume list_item_course_material.xml is your Material Design item layout
+                        // This layout should contain a TextView, e.g., R.id.item_course_title
+                        MaterialCardView itemCardView = (MaterialCardView) inflater.inflate(R.layout.fragment_course_detail, coursesContainerLayout, false);
+                        
+                        // Find the TextView within the card.
+                        // You'll need to define R.id.item_course_title in list_item_course_material.xml
+                        TextView courseTitleTextView = itemCardView.findViewById(R.id.course);
+                        if (courseTitleTextView != null) {
+                            courseTitleTextView.setText(courseDisplayString);
+                        }
+
+                        itemCardView.setOnClickListener(v -> {
+                            Bundle args = new Bundle();
+                            // We use the display string as the ID as per previous logic.
+                            // Consider passing the actual Course ID if available and more appropriate.
+                            args.putString("courseId", courseDisplayString);
+                            Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_detailFragment, args);
+                        });
+                        coursesContainerLayout.addView(itemCardView);
+                    }
+                });
             }
 
             @Override
             public void onError(Throwable error) {
-                requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(),
-                        "Error al cargar las clases: " + error.getMessage(),
-                        Toast.LENGTH_LONG).show());
+                if (getActivity() != null) {
+                    requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(),
+                            "Error al cargar las clases: " + error.getMessage(),
+                            Toast.LENGTH_LONG).show());
+                }
             }
         });
     }
