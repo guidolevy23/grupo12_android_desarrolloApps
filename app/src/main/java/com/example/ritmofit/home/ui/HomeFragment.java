@@ -49,42 +49,41 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadCourses() {
-        String searchTerm = "CrossFit"; // This should ideally come from user input
+        String searchTerm = "CrossFit";
         courseService.getAllByName(searchTerm, new DomainCallback<List<Course>>() {
             @Override
             public void onSuccess(List<Course> courses) {
                 if (getActivity() == null) return;
 
-                List<String> courseDisplayStrings = courses.stream()
-                        .map(course -> String.join(" - ",
-                                course.getName() != null ? course.getName() : "",
-                                course.getDescription() != null ? course.getDescription() : "",
-                                course.getProfessor() != null ? course.getProfessor() : ""))
-                        .collect(Collectors.toList());
-
                 requireActivity().runOnUiThread(() -> {
-                    coursesContainerLayout.removeAllViews(); // Clear previous items
-
+                    coursesContainerLayout.removeAllViews();
                     LayoutInflater inflater = LayoutInflater.from(getContext());
 
-                    for (String courseDisplayString : courseDisplayStrings) {
+                    for (Course course : courses) {
+                        // CORRECCIÓN: Inflar item_course, no fragment_course_detail
+                        View itemCardView = inflater.inflate(
+                                R.layout.item_course, // ← Este es el layout correcto
+                                coursesContainerLayout,
+                                false
+                        );
 
+                        TextView nameTextView = itemCardView.findViewById(R.id.courseName);
+                        TextView descTextView = itemCardView.findViewById(R.id.courseDescription);
+                        TextView professorTextView = itemCardView.findViewById(R.id.courseProfessor);
 
-                        MaterialCardView itemCardView = (MaterialCardView) inflater.inflate(R.layout.fragment_course_detail, coursesContainerLayout, false);
-
-                        TextView courseTitleTextView = itemCardView.findViewById(R.id.course);
-
-
-                        if (courseTitleTextView != null) {
-                            courseTitleTextView.setText(courseDisplayString);
-                        }
+                        nameTextView.setText(course.getName() != null ? course.getName() : "");
+                        descTextView.setText(course.getDescription() != null ? course.getDescription() : "");
+                        professorTextView.setText(course.getProfessor() != null ? course.getProfessor() : "");
 
                         itemCardView.setOnClickListener(v -> {
                             Bundle args = new Bundle();
-
-                            args.putString("courseId", courseDisplayString);
-                            Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_detailFragment, args);
+                            args.putParcelable("courseId", course);
+                            Navigation.findNavController(v).navigate(
+                                    R.id.action_homeFragment_to_detailFragment,
+                                    args
+                            );
                         });
+
                         coursesContainerLayout.addView(itemCardView);
                     }
                 });

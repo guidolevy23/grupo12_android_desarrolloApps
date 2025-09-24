@@ -3,6 +3,8 @@ package com.example.ritmofit.home.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.sql.Struct;
+
 public class Course implements Parcelable {
 
     private String name;
