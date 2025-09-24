@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,6 +39,9 @@ public class HomeFragment extends Fragment {
     private List<String> coursesToDisplay;
     private ArrayAdapter<String> adapter;
 
+    private EditText inputName, inputProfessor, inputStart, inputEnd;
+    private Button btnFilter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,43 +53,128 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         listView = view.findViewById(R.id.listView);
+        inputName = view.findViewById(R.id.inputName);
+        inputProfessor = view.findViewById(R.id.inputProfessor);
+        inputStart = view.findViewById(R.id.inputStartDate);
+        inputEnd = view.findViewById(R.id.inputEndDate);
+        btnFilter = view.findViewById(R.id.btnFilter);
+
         coursesToDisplay = new ArrayList<>();
         adapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_list_item_1,
                 coursesToDisplay);
         listView.setAdapter(adapter);
-        loadCourses();
+
+        // 🔹 Nuevo: cargar todos los cursos de entrada
+        loadAllCourses();
+
+        btnFilter.setOnClickListener(v -> applyFilters());
+
         listView.setOnItemClickListener((parent, v, position, id) -> {
             String course = coursesToDisplay.get(position);
             Bundle args = new Bundle();
             args.putString("courseId", course);
-            Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_detailFragment, args);
+            Navigation.findNavController(view)
+                    .navigate(R.id.action_homeFragment_to_detailFragment, args);
         });
     }
 
-    private void loadCourses() {
-        String searchTerm = "CrossFit"; // se deberia pedir en un form esto
-        courseService.getAllByName(searchTerm, new DomainCallback<>() {
+
+    private void loadAllCourses() {
+        // truco: pedimos todos los cursos sin filtro → name vacío
+        courseService.getAllByName("", new DomainCallback<>() {
             @Override
             public void onSuccess(List<Course> courses) {
-                coursesToDisplay.clear();
-                coursesToDisplay.addAll(
-                        courses.stream()
-                                .map(course -> String.join(" - ",
-                                        course.getName(),
-                                        course.getDescription(),
-                                        course.getProfessor()))
-                                .collect(Collectors.toList())
-                );
-                requireActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
+                updateList(courses);
             }
 
             @Override
             public void onError(Throwable error) {
-                requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(),
-                        "Error al cargar las clases: " + error.getMessage(),
-                        Toast.LENGTH_LONG).show());
+                showError(error);
             }
         });
     }
+
+
+
+
+    private void applyFilters() {
+        String name = inputName.getText().toString().trim();
+        String professor = inputProfessor.getText().toString().trim();
+        String start = inputStart.getText().toString().trim();
+        String end = inputEnd.getText().toString().trim();
+
+        if (!name.isEmpty()) {
+            loadByName(name);
+        } else if (!professor.isEmpty()) {
+            loadByProfessor(professor);
+        } else if (!start.isEmpty() && !end.isEmpty()) {
+            loadByDate(start, end);
+        } else {
+            Toast.makeText(requireContext(), "Ingrese al menos un filtro", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void loadByName(String name) {
+        courseService.getAllByName(name, new DomainCallback<>() {
+            @Override
+            public void onSuccess(List<Course> courses) {
+                updateList(courses);
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                showError(error);
+            }
+        });
+    }
+
+    private void loadByProfessor(String professor) {
+        courseService.getAllByProfessor(professor, new DomainCallback<>() {
+            @Override
+            public void onSuccess(List<Course> courses) {
+                updateList(courses);
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                showError(error);
+            }
+        });
+    }
+
+    private void loadByDate(String start, String end) {
+        courseService.getAllByDateBetween(start, end, new DomainCallback<>() {
+            @Override
+            public void onSuccess(List<Course> courses) {
+                updateList(courses);
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                showError(error);
+            }
+        });
+    }
+
+    private void updateList(List<Course> courses) {
+        coursesToDisplay.clear();
+        coursesToDisplay.addAll(
+                courses.stream()
+                        .map(course -> String.join(" - ",
+                                course.getName(),
+                                course.getDescription(),
+                                course.getProfessor()))
+                        .collect(Collectors.toList())
+        );
+        requireActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
+    }
+
+    private void showError(Throwable error) {
+        requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(),
+                "Error al cargar las clases: " + error.getMessage(),
+                Toast.LENGTH_LONG).show());
+    }
 }
+
+

@@ -23,4 +23,14 @@ public class CourseServiceImpl implements CourseService {
     public void getAllByName(String name, DomainCallback<List<Course>> callback) {
         repository.getAllByName(name, callback);
     }
+
+    @Override
+    public void getAllByProfessor(String professor, DomainCallback<List<Course>> callback) {
+        repository.getAllByProfessor(professor, callback);
+    }
+
+    @Override
+    public void getAllByDateBetween(String start, String end, DomainCallback<List<Course>> callback) {
+        repository.getAllByDateBetween(start, end, callback);
+    }
 }

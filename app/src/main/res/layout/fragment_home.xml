@@ -4,20 +4,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".HomeFragment">
+    android:padding="16dp"
+    tools:context=".home.ui.HomeFragment">
 
+    <!-- Título -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="16dp"
+        android:padding="8dp"
         android:text="@string/courses_list"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
+    <!-- Campo para filtrar por nombre -->
+    <EditText
+        android:id="@+id/inputName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Filtrar por nombre" />
+
+    <!-- Campo para filtrar por profesor -->
+    <EditText
+        android:id="@+id/inputProfessor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Filtrar por profesor" />
+
+    <!-- Filtro por rango de fechas -->
+    <EditText
+        android:id="@+id/inputStartDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha inicio (yyyy-MM-dd)" />
+
+    <EditText
+        android:id="@+id/inputEndDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha fin (yyyy-MM-dd)" />
+
+    <!-- Botón de aplicar filtros -->
+    <Button
+        android:id="@+id/btnFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aplicar filtros" />
+
+    <!-- Lista de cursos -->
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="619dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp" />
 
 </LinearLayout>
