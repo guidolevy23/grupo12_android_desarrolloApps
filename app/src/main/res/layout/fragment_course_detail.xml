@@ -48,8 +48,8 @@
                         android:textAppearance="?attr/textAppearanceHeadline4"
                         android:textStyle="bold"
                         android:paddingBottom="8dp"
-                        tools:text="CrossFit Avanzado" />
-                        <!--android:textColor="@color/primary_dark"-->
+                        tools:text="CrossFit Avanzado"
+                        android:textColor="@color/black" />
 
                     <TextView
                         android:id="@+id/courseProfessor"
