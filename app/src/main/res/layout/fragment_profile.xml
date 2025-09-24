@@ -9,79 +9,144 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Avatar -->
         <ImageView
             android:id="@+id/imgAvatar"
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_person_24"/>
-<!--            android:contentDescription="@string/profile_photo" />-->
+            android:src="@drawable/ic_person_24" />
 
-        <TextView
+        <!-- ================= VER (TextView) ================= -->
+        <LinearLayout
+            android:id="@+id/groupView"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Nombre -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:textStyle="bold"
+                android:paddingTop="16dp" />
+
+            <TextView
+                android:id="@+id/tvNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:paddingBottom="8dp" />
+
+            <!-- Email -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:paddingBottom="8dp" />
+
+            <!-- Dirección -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dirección"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:paddingBottom="8dp" />
+
+            <!-- Teléfono -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Teléfono"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:paddingBottom="8dp" />
+        </LinearLayout>
+
+        <!-- ================= EDITAR (EditText) ================= -->
+        <LinearLayout
+            android:id="@+id/groupEdit"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Nombre -->
+            <EditText
+                android:id="@+id/etNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre"
+                android:inputType="textPersonName"
+                android:paddingTop="16dp" />
+
+            <!-- Email -->
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:enabled="false"
+                android:focusable="false"/>
+
+            <!-- Dirección -->
+            <EditText
+                android:id="@+id/etDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Dirección"
+                android:inputType="textPostalAddress" />
+
+            <!-- Teléfono -->
+            <EditText
+                android:id="@+id/etTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Teléfono"
+                android:inputType="phone" />
+        </LinearLayout>
+
+        <!-- ================= Botones ================= -->
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nombre"
-            android:textStyle="bold"
-            android:paddingTop="16dp"/>
+            android:gravity="end"
+            android:paddingTop="16dp">
 
-        <TextView
-            android:id="@+id/tvNombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="—"
-            android:paddingBottom="8dp"/>
+            <Button
+                android:id="@+id/btnEditarGuardar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Editar" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Teléfono"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/tvTelefono"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="—"
-            android:paddingBottom="8dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Email"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/tvEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="—"
-            android:paddingBottom="8dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Dirección"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/tvDireccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="—"
-            android:paddingBottom="8dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Fecha de nacimiento"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/tvFecha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="—"
-            android:paddingBottom="8dp"/>
+            <Button
+                android:id="@+id/btnCancelar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancelar"
+                android:visibility="gone" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

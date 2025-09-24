@@ -7,6 +7,8 @@ public class User {
     private String name;
     private String photoUrl;
     private String role;
+    private String telefono;
+    private String direccion;
 
     public User(Long id, String email, String password, String name, String photoUrl, String role) {
         this.id = id;
@@ -15,6 +17,33 @@ public class User {
         this.name = name;
         this.photoUrl = photoUrl;
         this.role = role;
+    }
+
+    public User(Long id, String email, String password, String name, String photoUrl, String role, String direccion, String telefono) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.photoUrl = photoUrl;
+        this.role = role;
+        this.direccion = direccion;
+        this.telefono = telefono;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public Long getId() {
