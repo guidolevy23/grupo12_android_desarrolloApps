@@ -20,7 +20,6 @@ import com.example.ritmofit.core.DomainCallback;
 import com.example.ritmofit.home.model.Course;
 import com.example.ritmofit.home.service.CourseService;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,10 +35,10 @@ public class HomeFragment extends Fragment {
     CourseService courseService;
 
     private ListView listView;
-    private List<String> coursesToDisplay;
     private ArrayAdapter<String> adapter;
+    private List<String> coursesToDisplay;
 
-    private EditText inputName, inputProfessor, inputStart, inputEnd;
+    private EditText inputName, inputProfessor, inputStart, inputEnd, inputBranch;
     private Button btnFilter;
 
     @Nullable
@@ -57,6 +56,7 @@ public class HomeFragment extends Fragment {
         inputProfessor = view.findViewById(R.id.inputProfessor);
         inputStart = view.findViewById(R.id.inputStartDate);
         inputEnd = view.findViewById(R.id.inputEndDate);
+        inputBranch = view.findViewById(R.id.inputBranch);
         btnFilter = view.findViewById(R.id.btnFilter);
 
         coursesToDisplay = new ArrayList<>();
@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
                 coursesToDisplay);
         listView.setAdapter(adapter);
 
-        // 🔹 Nuevo: cargar todos los cursos de entrada
+        // Cargar todos los cursos al inicio
         loadAllCourses();
 
         btnFilter.setOnClickListener(v -> applyFilters());
@@ -79,9 +79,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
     private void loadAllCourses() {
-        // truco: pedimos todos los cursos sin filtro → name vacío
         courseService.getAllByName("", new DomainCallback<>() {
             @Override
             public void onSuccess(List<Course> courses) {
@@ -95,19 +93,19 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
-
-
     private void applyFilters() {
         String name = inputName.getText().toString().trim();
         String professor = inputProfessor.getText().toString().trim();
         String start = inputStart.getText().toString().trim();
         String end = inputEnd.getText().toString().trim();
+        String branch = inputBranch.getText().toString().trim();
 
         if (!name.isEmpty()) {
             loadByName(name);
         } else if (!professor.isEmpty()) {
             loadByProfessor(professor);
+        } else if (!branch.isEmpty()) {
+            loadByBranch(branch);
         } else if (!start.isEmpty() && !end.isEmpty()) {
             loadByDate(start, end);
         } else {
@@ -143,6 +141,20 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    private void loadByBranch(String branch) {
+        courseService.getAllByBranch(branch, new DomainCallback<>() {
+            @Override
+            public void onSuccess(List<Course> courses) {
+                updateList(courses);
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                showError(error);
+            }
+        });
+    }
+
     private void loadByDate(String start, String end) {
         courseService.getAllByDateBetween(start, end, new DomainCallback<>() {
             @Override
@@ -161,10 +173,11 @@ public class HomeFragment extends Fragment {
         coursesToDisplay.clear();
         coursesToDisplay.addAll(
                 courses.stream()
-                        .map(course -> String.join(" - ",
+                        .map(course -> String.format("%s - %s - %s - %s",
                                 course.getName(),
-                                course.getDescription(),
-                                course.getProfessor()))
+                                course.getProfessor(),
+                                course.getBranch(),
+                                course.getStartsAt()))
                         .collect(Collectors.toList())
         );
         requireActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
@@ -176,5 +189,3 @@ public class HomeFragment extends Fragment {
                 Toast.LENGTH_LONG).show());
     }
 }
-
-

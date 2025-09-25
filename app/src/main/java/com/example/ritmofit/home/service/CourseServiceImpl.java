@@ -25,6 +25,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public void getAllByBranch(String branch, DomainCallback<List<Course>> callback) {
+        repository.getAllByBranch(branch, callback);
+    }
+
+    @Override
     public void getAllByProfessor(String professor, DomainCallback<List<Course>> callback) {
         repository.getAllByProfessor(professor, callback);
     }

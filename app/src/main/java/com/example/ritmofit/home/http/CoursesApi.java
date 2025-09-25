@@ -20,4 +20,8 @@ public interface CoursesApi {
             @Query("end") String end
     );
 
+    @GET("api/courses/search/byBranch")
+    Call<PageResponse<CoursesResponse>> getAllByBranch(@Query("branch") String branch);
+
+
 }

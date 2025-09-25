@@ -7,7 +7,6 @@
     android:padding="16dp"
     tools:context=".home.ui.HomeFragment">
 
-    <!-- Título -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,21 +16,24 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <!-- Campo para filtrar por nombre -->
     <EditText
         android:id="@+id/inputName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Filtrar por nombre" />
 
-    <!-- Campo para filtrar por profesor -->
     <EditText
         android:id="@+id/inputProfessor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Filtrar por profesor" />
 
-    <!-- Filtro por rango de fechas -->
+    <EditText
+        android:id="@+id/inputBranch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Filtrar por sede" />
+
     <EditText
         android:id="@+id/inputStartDate"
         android:layout_width="match_parent"
@@ -44,14 +46,12 @@
         android:layout_height="wrap_content"
         android:hint="Fecha fin (yyyy-MM-dd)" />
 
-    <!-- Botón de aplicar filtros -->
     <Button
         android:id="@+id/btnFilter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Aplicar filtros" />
 
-    <!-- Lista de cursos -->
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"

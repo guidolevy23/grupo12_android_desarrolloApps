@@ -34,9 +34,13 @@ public class CourseRepositoryImpl implements CourseRepository {
         return new Course(
                 response.getName(),
                 response.getDescription(),
-                response.getProfessor()
+                response.getProfessor(),
+                response.getBranch(),
+                response.getStartsAt(),
+                response.getEndsAt()
         );
     }
+
 
     @Override
     public void getAllByName(String name, DomainCallback<List<Course>> callback) {
@@ -55,6 +59,14 @@ public class CourseRepositoryImpl implements CourseRepository {
         Call<PageResponse<CoursesResponse>> call = api.getAllByDateBetween(start, end);
         enqueueCall(call, callback, "Error al buscar por fecha");
     }
+
+
+    @Override
+    public void getAllByBranch(String branch, DomainCallback<List<Course>> callback) {
+        Call<PageResponse<CoursesResponse>> call = api.getAllByBranch(branch);
+        enqueueCall(call, callback, "Error al buscar por sede");
+    }
+
 
     // 🔹 Método común para reducir código repetido
     private void enqueueCall(Call<PageResponse<CoursesResponse>> call,
@@ -82,6 +94,9 @@ public class CourseRepositoryImpl implements CourseRepository {
                                   @NotNull Throwable t) {
                 callback.onError(t);
             }
+
         });
-    }
-}
+
+
+    }}
+
