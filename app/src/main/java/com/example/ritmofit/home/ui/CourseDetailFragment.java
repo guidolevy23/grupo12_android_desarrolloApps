@@ -20,7 +20,7 @@ public class CourseDetailFragment extends Fragment {
 
     private Course course;
     private TextView courseName, courseProfessor, courseDescription;
-    private TextView courseDuration, courseDifficulty, courseSchedule, courseLocation, courseRequirements;
+    private TextView courseSchedule, courseDifficulty, courseLocation, courseRequirements;
     private Chip courseCategory;
     private MaterialButton btnEnroll, btnShare;
 
@@ -42,10 +42,8 @@ public class CourseDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Inicializar vistas
         initializeViews(view);
 
-        // Mostrar datos del curso
         if (course != null) {
             displayCourseData();
         } else {
@@ -59,12 +57,14 @@ public class CourseDetailFragment extends Fragment {
         courseName = view.findViewById(R.id.courseName);
         courseProfessor = view.findViewById(R.id.courseProfessor);
         courseDescription = view.findViewById(R.id.courseDescription);
-        courseDuration = view.findViewById(R.id.courseDuration);
-        courseDifficulty = view.findViewById(R.id.courseDifficulty);
+
+        // Campos de información del curso
         courseSchedule = view.findViewById(R.id.courseSchedule);
+        courseDifficulty = view.findViewById(R.id.courseDifficulty);
         courseLocation = view.findViewById(R.id.courseLocation);
         courseRequirements = view.findViewById(R.id.courseRequirements);
         courseCategory = view.findViewById(R.id.courseCategory);
+
         btnEnroll = view.findViewById(R.id.btnEnroll);
         btnShare = view.findViewById(R.id.btnShare);
     }
@@ -74,13 +74,18 @@ public class CourseDetailFragment extends Fragment {
         courseProfessor.setText("Profesor: " + course.getProfessor());
         courseDescription.setText(course.getDescription());
 
-        // Si tienes más campos en el modelo, agrégalos aquí
-        // courseDuration.setText(course.getDuration());
-        // courseDifficulty.setText(course.getDifficulty());
-        // courseSchedule.setText(course.getSchedule());
-        // courseLocation.setText(course.getLocation());
-        // courseRequirements.setText(course.getRequirements());
-        // courseCategory.setText(course.getCategory());
+        // Usar el método getSchedule() que construye el horario desde startsAt y endsAt
+        courseSchedule.setText(course.getSchedule());
+
+        // Usar los métodos que devuelven valores basados en el nombre del curso
+        courseDifficulty.setText(course.getDifficulty());
+        courseLocation.setText(course.getBranch()); // Usamos branch como ubicación
+
+        // Configurar el chip de categoría
+        courseCategory.setText(course.getCategory());
+
+        // Mantener requisitos estáticos por ahora
+        courseRequirements.setText("• Ropa deportiva adecuada\n• Botella de agua\n• Toalla personal");
     }
 
     private void setupButtonListeners() {
@@ -99,11 +104,9 @@ public class CourseDetailFragment extends Fragment {
 
     private void enrollInCourse(String courseName) {
         Toast.makeText(getContext(), "Inscrito en: " + courseName, Toast.LENGTH_SHORT).show();
-        // Lógica de inscripción
     }
 
     private void shareCourse(String courseName) {
         Toast.makeText(getContext(), "Compartiendo: " + courseName, Toast.LENGTH_SHORT).show();
-        // Lógica para compartir
     }
 }

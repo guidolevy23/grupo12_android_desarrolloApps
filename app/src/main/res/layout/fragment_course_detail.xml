@@ -26,14 +26,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Imagen del curso (puedes reemplazar con una imagen real) -->
+                <!-- Imagen del curso -->
                 <ImageView
                     android:id="@+id/courseImage"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
                     android:background="@color/material_grey_300" />
-                    <!--android:src="@drawable/ic_fitness_center" --><!-- Reemplaza con tu imagen -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -59,8 +58,6 @@
                         android:drawablePadding="8dp"
                         android:paddingBottom="16dp"
                         tools:text="Profesor: Juan Pérez" />
-                        <!--android:textColor="@color/secondary_text"-->
-                        <!--android:drawableStart="@drawable/ic_person" --><!-- Icono de profesor -->
 
                     <!-- Chip de categoría -->
                     <com.google.android.material.chip.Chip
@@ -68,8 +65,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Fitness" />
-                        <!--app:chipBackgroundColor="@color/primary_light"
-                        android:textColor="@color/primary_dark" -->
 
                 </LinearLayout>
 
@@ -111,7 +106,7 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Card de información detallada -->
+        <!-- Card de información detallada - MODIFICADO: Solo 3 campos -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,7 +128,7 @@
                     android:textStyle="bold"
                     android:paddingBottom="16dp" />
 
-                <!-- Duración -->
+                <!-- Horarios (primer campo) -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -143,80 +138,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp" />
-                        <!--android:src="@drawable/ic_schedule"
-                        android:tint="?attr/colorPrimary" -->
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:paddingStart="12dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Duración"
-                            android:textAppearance="?attr/textAppearanceCaption"
-                            android:textColor="?attr/colorPrimary" />
-
-                        <TextView
-                            android:id="@+id/courseDuration"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?attr/textAppearanceBody2"
-                            tools:text="60 minutos por sesión" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Dificultad -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="12dp">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp" />
-                        <!--android:src="@drawable/ic_fitness"
-                        android:tint="?attr/colorPrimary" -->
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:paddingStart="12dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Nivel de Dificultad"
-                            android:textAppearance="?attr/textAppearanceCaption"
-                            android:textColor="?attr/colorPrimary" />
-
-                        <TextView
-                            android:id="@+id/courseDifficulty"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?attr/textAppearanceBody2"
-                            tools:text="Avanzado" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Horario -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="12dp">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp" />
-                        <!--android:src="@drawable/ic_date_range"
-                        android:tint="?attr/colorPrimary" -->
+                    <!--android:src="@drawable/ic_date_range"
+                    android:tint="?attr/colorPrimary" -->
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -241,7 +164,43 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Ubicación -->
+                <!-- Dificultad (segundo campo) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp" />
+                    <!--android:src="@drawable/ic_fitness"
+                    android:tint="?attr/colorPrimary" -->
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingStart="12dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Nivel de Dificultad"
+                            android:textAppearance="?attr/textAppearanceCaption"
+                            android:textColor="?attr/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/courseDifficulty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            tools:text="Avanzado" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Ubicación (tercer campo) -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -250,8 +209,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp" />
-                        <!--android:src="@drawable/ic_location"
-                        android:tint="?attr/colorPrimary" -->
+                    <!--android:src="@drawable/ic_location"
+                    android:tint="?attr/colorPrimary" -->
 
                     <LinearLayout
                         android:layout_width="0dp"

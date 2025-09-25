@@ -1,5 +1,7 @@
 package com.example.ritmofit.home.repository;
 
+import android.util.Log;
+
 import com.example.ritmofit.core.DomainCallback;
 import com.example.ritmofit.data.api.model.CourseResponse;
 import com.example.ritmofit.data.api.model.CoursesResponse;
@@ -26,7 +28,10 @@ public class CourseRepositoryImpl implements CourseRepository {
         return new Course(
                 response.getName(),
                 response.getDescription(),
-                response.getProfessor()
+                response.getProfessor(),
+                response.getBranch(),
+                response.getStartsAt(),
+                response.getEndsAt()
         );
     }
 
@@ -49,6 +54,14 @@ public class CourseRepositoryImpl implements CourseRepository {
                     callback.onError(new Exception("Error al buscar las clases"));
                     return;
                 }
+
+                // Log para debuggear el formato de las fechas
+                if (!response.body().getData().getCourses().isEmpty()) {
+                    CourseResponse firstCourse = response.body().getData().getCourses().get(0);
+                    Log.d("CourseRepo", "StartsAt: " + firstCourse.getStartsAt());
+                    Log.d("CourseRepo", "EndsAt: " + firstCourse.getEndsAt());
+                }
+
                 List<Course> courses = response.body()
                         .getData()
                         .getCourses()

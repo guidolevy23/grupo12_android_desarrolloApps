@@ -5,6 +5,9 @@ public class CourseResponse {
     private String name;
     private String description;
     private String professor;
+    private String branch;
+    private String startsAt;  // Cambiar a String
+    private String endsAt;    // Cambiar a String
 
     public String getName() {
         return name;
@@ -16,5 +19,17 @@ public class CourseResponse {
 
     public String getProfessor() {
         return professor;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public String getStartsAt() {
+        return startsAt;
+    }
+
+    public String getEndsAt() {
+        return endsAt;
     }
 }
