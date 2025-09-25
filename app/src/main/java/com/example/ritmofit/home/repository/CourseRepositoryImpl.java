@@ -6,9 +6,11 @@ import com.example.ritmofit.data.api.model.CoursesResponse;
 import com.example.ritmofit.data.api.model.PageResponse;
 import com.example.ritmofit.home.http.CoursesApi;
 import com.example.ritmofit.home.model.Course;
+import com.example.ritmofit.utils.DateUtils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,19 +32,30 @@ public class CourseRepositoryImpl implements CourseRepository {
     }
 
     // Mapper de API → modelo de dominio
-    private static Course toModel(CourseResponse response) {
+    static Course toModel(CourseResponse response) {
+        LocalDateTime start = LocalDateTime.parse(
+                response.getStartsAt(),
+                DateUtils.BACKEND_DATETIME_FORMATTER
+        );
+
+        LocalDateTime end = LocalDateTime.parse(
+                response.getEndsAt(),
+                DateUtils.BACKEND_DATETIME_FORMATTER
+        );
+
         return new Course(
                 response.getName(),
                 response.getDescription(),
-                response.getProfessor(),
                 response.getBranch(),
-                response.getStartsAt(),
-                response.getEndsAt()
+                response.getProfessor(),
+                start,
+                end
         );
     }
 
 
-    @Override
+
+        @Override
     public void getAllByName(String name, DomainCallback<List<Course>> callback) {
         Call<PageResponse<CoursesResponse>> call = api.getAllBy(name);
         enqueueCall(call, callback, "Error al buscar por nombre");

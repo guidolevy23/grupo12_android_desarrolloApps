@@ -16,6 +16,9 @@ public class DateUtils {
     // Spanish locale for formatting
     private static final Locale SPANISH_LOCALE = new Locale("es", "ES");
 
+
+
+
     // Common date formatters
     public static final DateTimeFormatter API_DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
     public static final DateTimeFormatter API_DATETIME_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
@@ -27,6 +30,19 @@ public class DateUtils {
         DateTimeFormatter.ofPattern("HH:mm");
     public static final DateTimeFormatter MONTH_YEAR_FORMATTER = 
         DateTimeFormatter.ofPattern("MMMM yyyy", SPANISH_LOCALE);
+
+
+    // Para parsear LocalDateTime que viene del backend (ej: "2025-09-25T08:00:00")
+    public static final DateTimeFormatter BACKEND_DATETIME_FORMATTER =
+            DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
+    // Para mostrar fecha + hora completas al usuario
+    public static final DateTimeFormatter DISPLAY_FULL_DATETIME_FORMATTER =
+            DateTimeFormatter.ofPattern("d 'de' MMMM yyyy, HH:mm", SPANISH_LOCALE);
+
+    // Para mostrar solo la fecha pero en formato largo
+    public static final DateTimeFormatter DISPLAY_LONG_DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("d 'de' MMMM yyyy", SPANISH_LOCALE);
 
     // Private constructor to prevent instantiation
     private DateUtils() {

@@ -14,4 +14,6 @@ public interface CourseRepository {
     void getAllByBranch(String branch, DomainCallback<List<Course>> callback);
 
 
+
+
 }

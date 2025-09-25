@@ -19,6 +19,7 @@ import com.example.ritmofit.R;
 import com.example.ritmofit.core.DomainCallback;
 import com.example.ritmofit.home.model.Course;
 import com.example.ritmofit.home.service.CourseService;
+import com.example.ritmofit.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,11 +178,14 @@ public class HomeFragment extends Fragment {
                                 course.getName(),
                                 course.getProfessor(),
                                 course.getBranch(),
-                                course.getStartsAt()))
+                                course.getStartsAt().format(DateUtils.DISPLAY_FULL_DATETIME_FORMATTER) // 👈 ahora sí
+                        ))
                         .collect(Collectors.toList())
         );
         requireActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
     }
+
+
 
     private void showError(Throwable error) {
         requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(),
