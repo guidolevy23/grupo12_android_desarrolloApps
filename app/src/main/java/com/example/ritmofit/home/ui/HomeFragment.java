@@ -53,7 +53,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadCourses() {
-        String searchTerm = "CrossFit";
+        // cadena vacía para obtener todos los cursos
+        String searchTerm = "";
+
         courseService.getAllByName(searchTerm, new DomainCallback<List<Course>>() {
             @Override
             public void onSuccess(List<Course> courses) {
@@ -63,7 +65,12 @@ public class HomeFragment extends Fragment {
                     coursesContainerLayout.removeAllViews();
                     LayoutInflater inflater = LayoutInflater.from(getContext());
 
-                    for (Course course : courses) {
+                    // Limitar a los primeros 10 cursos
+                    int maxCourses = Math.min(courses.size(), 10);
+
+                    for (int i = 0; i < maxCourses; i++) {
+                        Course course = courses.get(i);
+
                         View itemCardView = inflater.inflate(
                                 R.layout.item_course,
                                 coursesContainerLayout,
@@ -87,7 +94,7 @@ public class HomeFragment extends Fragment {
                         itemCardView.setOnClickListener(v -> {
                             Log.d(TAG, "Course clicked: " + course.getName());
                             Bundle args = new Bundle();
-                            args.putParcelable("course", course); // Clave corregida
+                            args.putParcelable("course", course);
                             Navigation.findNavController(v).navigate(
                                     R.id.action_homeFragment_to_detailFragment,
                                     args
@@ -95,6 +102,15 @@ public class HomeFragment extends Fragment {
                         });
 
                         coursesContainerLayout.addView(itemCardView);
+                    }
+
+                    // Mostrar mensaje si no hay cursos
+                    if (courses.isEmpty()) {
+                        TextView noCoursesText = new TextView(getContext());
+                        noCoursesText.setText("No se encontraron cursos");
+                        noCoursesText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        noCoursesText.setPadding(0, 50, 0, 0);
+                        coursesContainerLayout.addView(noCoursesText);
                     }
                 });
             }
