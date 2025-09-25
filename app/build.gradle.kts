@@ -38,7 +38,6 @@ android {
         isCoreLibraryDesugaringEnabled = true
     }
 
-    buildToolsVersion = "30.0.3"
 }
 
 dependencies {
@@ -64,6 +63,9 @@ dependencies {
 
     // Security Crypto para EncryptedSharedPreferences
     implementation("androidx.security:security-crypto:1.1.0")
+    
+    // Biometric Authentication
+    implementation("androidx.biometric:biometric:1.1.0")
 
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.48")

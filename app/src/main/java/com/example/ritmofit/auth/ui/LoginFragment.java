@@ -1,6 +1,6 @@
 package com.example.ritmofit.auth.ui;
 
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +19,8 @@ import com.example.ritmofit.auth.model.Login;
 import com.example.ritmofit.auth.repository.TokenRepository;
 import com.example.ritmofit.auth.service.AuthService;
 import com.example.ritmofit.core.DomainCallback;
+import com.example.ritmofit.security.service.SecurityService;
+import com.example.ritmofit.security.ui.SecurityActivity;
 
 import javax.inject.Inject;
 
@@ -31,6 +33,8 @@ public class LoginFragment extends Fragment {
     TokenRepository tokenRepository;
     @Inject
     AuthService authService;
+    @Inject
+    SecurityService securityService;
 
     private EditText userEditText;
     private EditText passwordEditText;
@@ -64,7 +68,18 @@ public class LoginFragment extends Fragment {
             @Override
             public void onSuccess(String token) {
                 tokenRepository.saveToken(token);
-                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeActivity);
+                
+                // Después del login exitoso, verificar si se requiere autenticación de seguridad
+                if (securityService.shouldRequestAuthentication()) {
+                    // Redirigir a SecurityActivity para autenticación biométrica
+                    Intent intent = new Intent(requireContext(), SecurityActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    requireActivity().finish();
+                } else {
+                    // Si no se requiere seguridad, ir directamente a MainActivity
+                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeActivity);
+                }
             }
 
             @Override

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="24dp"
+    android:gravity="center">
+
+    <!-- Icono de seguridad -->
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_security_24"
+        android:layout_marginBottom="32dp"
+        android:contentDescription="Ícono de seguridad"
+        app:tint="@color/design_default_color_primary" />
+
+    <!-- Título principal -->
+    <TextView
+        android:id="@+id/security_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Autenticación requerida"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginBottom="16dp"
+        android:textAlignment="center" />
+
+    <!-- Subtítulo explicativo -->
+    <TextView
+        android:id="@+id/security_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Para tu seguridad, necesitamos verificar tu identidad antes de continuar"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="32dp"
+        android:textAlignment="center"
+        android:lineSpacingExtra="4dp" />
+
+    <!-- Botón de autenticación -->
+    <Button
+        android:id="@+id/authenticate_button"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Autenticar"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:textColor="@color/white" />
+
+    <!-- Texto de intentos -->
+    <TextView
+        android:id="@+id/attempts_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="14sp"
+        android:textColor="@color/design_default_color_error"
+        android:layout_marginTop="8dp"
+        android:visibility="gone" />
+
+    <!-- Información adicional -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Podés usar tu huella digital, reconocimiento facial o PIN del dispositivo"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        android:lineSpacingExtra="2dp" />
+
+</LinearLayout>

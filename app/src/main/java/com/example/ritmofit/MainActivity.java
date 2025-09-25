@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.ritmofit.auth.model.UnAuthenticationEvent;
 import com.example.ritmofit.auth.repository.TokenRepository;
 import com.example.ritmofit.auth.ui.AuthActivity;
+import com.example.ritmofit.security.model.SecurityEvent;
+import com.example.ritmofit.security.service.SecurityService;
+import com.example.ritmofit.security.ui.SecurityActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -33,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     TokenRepository tokenRepository;
+    
+    @Inject
+    SecurityService securityService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +70,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleAuth() {
+        // Verificar si viene de una autenticación de seguridad exitosa
+        boolean securityAuthenticated = getIntent().getBooleanExtra("SECURITY_AUTHENTICATED", false);
+        
         if (!tokenRepository.hasToken()) {
             goToLogin();
+        } else if (securityService.shouldRequestAuthentication() && !securityAuthenticated) {
+            goToSecurity();
         }
+        // Si tiene token y no necesita seguridad (o ya se autenticó), continúa normalmente
     }
 
     private void goToLogin() {
         startActivity(new Intent(this, AuthActivity.class));
         finish();
     }
+    
+    private void goToSecurity() {
+        startActivity(new Intent(this, SecurityActivity.class));
+        finish();
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUnAuthenticationEvent(UnAuthenticationEvent event) {
         goToLogin();
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSecurityEvent(SecurityEvent event) {
+        switch (event.getType()) {
+            case SECURITY_REQUIRED:
+                goToSecurity();
+                break;
+            case SECURITY_FAILED:
+                // Manejar fallo de seguridad si es necesario
+                Toast.makeText(this, "Fallo en la autenticación de seguridad", Toast.LENGTH_SHORT).show();
+                break;
+            case SECURITY_SUCCESS:
+                // La seguridad fue exitosa, continuar normalmente
+                // No hacer nada aquí ya que SecurityActivity redirige a MainActivity
+                break;
+        }
     }
 }
