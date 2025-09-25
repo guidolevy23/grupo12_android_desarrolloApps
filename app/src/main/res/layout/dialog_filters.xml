@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/inputName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Filtrar por nombre" />
+
+    <EditText
+        android:id="@+id/inputProfessor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Filtrar por profesor" />
+
+    <EditText
+        android:id="@+id/inputBranch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Filtrar por sede" />
+
+    <EditText
+        android:id="@+id/inputStartDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha inicio"
+        android:focusable="false"
+        android:clickable="true" />
+
+    <EditText
+        android:id="@+id/inputEndDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha fin"
+        android:focusable="false"
+        android:clickable="true" />
+
+
+    <Button
+        android:id="@+id/btnApplyFilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aplicar filtros" />
+</LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.ritmofit.home.http;
 
+import com.example.ritmofit.data.api.model.CourseResponse;
 import com.example.ritmofit.data.api.model.CoursesResponse;
 import com.example.ritmofit.data.api.model.PageResponse;
 
@@ -18,6 +19,15 @@ public interface CoursesApi {
     Call<PageResponse<CoursesResponse>> getAllByDateBetween(
             @Query("start") String start,
             @Query("end") String end
+    );
+
+    // 👇 Nuevo método para filtrar entre fechas
+    @GET("courses/search/byDateBetween")
+    Call<PageResponse<CourseResponse>> getAllByDateBetween(
+            @Query("start") String start,
+            @Query("end") String end,
+            @Query("page") int page,
+            @Query("size") int size
     );
 
     @GET("api/courses/search/byBranch")
