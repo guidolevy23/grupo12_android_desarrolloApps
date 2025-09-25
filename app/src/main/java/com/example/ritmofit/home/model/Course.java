@@ -3,6 +3,7 @@ package com.example.ritmofit.home.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,7 +18,7 @@ public class Course implements Parcelable {
     private String startsAt; // Guardar como String
     private String endsAt;   // Guardar como String
 
-    // --- Constructor ---
+    // contructor
     public Course(String name, String description, String professor, String branch,
                   String startsAt, String endsAt) {
         this.name = name;
@@ -28,7 +29,7 @@ public class Course implements Parcelable {
         this.endsAt = endsAt;
     }
 
-    // --- Constructor for Parcel ---
+    // constructor parcel
     protected Course(Parcel in) {
         name = in.readString();
         description = in.readString();
@@ -38,7 +39,7 @@ public class Course implements Parcelable {
         endsAt = in.readString();
     }
 
-    // --- Parcelable required methods ---
+    // methods parceable
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
@@ -54,7 +55,7 @@ public class Course implements Parcelable {
         return 0;
     }
 
-    // --- Getters ---
+    // getters
     public String getName() { return name; }
     public String getDescription() { return description; }
     public String getProfessor() { return professor; }
@@ -62,15 +63,25 @@ public class Course implements Parcelable {
     public String getStartsAt() { return startsAt; }
     public String getEndsAt() { return endsAt; }
 
-    // --- Método para construir el schedule ---
+    // metodo para construir el schedule
+
     public String getSchedule() {
         if (startsAt == null || endsAt == null) {
             return "Horario no disponible";
         }
 
         try {
-            // Formato de entrada: ISO datetime (ej: "2025-09-10T08:00:00")
-            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+
+            // Determinar el formato basado en el contenido del string
+            SimpleDateFormat inputFormat;
+            if (startsAt.contains("T")) {
+                // Formato ISO: "2025-09-10T08:00:00"
+                inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+            } else {
+                // Formato SQL: "2025-09-10 08:00:00"
+                inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            }
+
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
@@ -81,16 +92,19 @@ public class Course implements Parcelable {
             String endTime = timeFormat.format(endDate);
             String date = dateFormat.format(startDate);
 
-            return String.format("%s - %s (%s)", startTime, endTime, date);
+            String schedule = String.format("%s - %s (%s)", startTime, endTime, date);
+
+            return schedule;
 
         } catch (ParseException e) {
             e.printStackTrace();
-            // Si falla el parsing, intentar con un formato más simple
-            return String.format("%s - %s", startsAt, endsAt);
+
+            // Si falla el parsing, mostrar el formato raw
+            return String.format("Horario: %s a %s", startsAt, endsAt);
         }
     }
 
-    // --- Métodos para dificultad y categoría (valores estáticos por ahora) ---
+    // dificultad y categoria, faltaria agregar en el back
     public String getDifficulty() {
         if (name != null) {
             String lowerName = name.toLowerCase();

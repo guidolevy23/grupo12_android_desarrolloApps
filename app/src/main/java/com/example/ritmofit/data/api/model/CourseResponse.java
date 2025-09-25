@@ -6,8 +6,8 @@ public class CourseResponse {
     private String description;
     private String professor;
     private String branch;
-    private String startsAt;  // Cambiar a String
-    private String endsAt;    // Cambiar a String
+    private String startsAt;
+    private String endsAt;
 
     public String getName() {
         return name;
