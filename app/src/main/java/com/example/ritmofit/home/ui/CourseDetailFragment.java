@@ -13,9 +13,15 @@ import androidx.fragment.app.Fragment;
 
 import com.example.ritmofit.R;
 import com.example.ritmofit.home.model.Course;
+import com.example.ritmofit.reservas.service.EnrollmentService;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class CourseDetailFragment extends Fragment {
 
     private Course course;
@@ -23,6 +29,9 @@ public class CourseDetailFragment extends Fragment {
     private TextView courseSchedule, courseDifficulty, courseLocation, courseRequirements;
     private Chip courseCategory;
     private MaterialButton btnEnroll, btnShare;
+    
+    @Inject
+    EnrollmentService enrollmentService;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +55,7 @@ public class CourseDetailFragment extends Fragment {
 
         if (course != null) {
             displayCourseData();
+            updateEnrollButtonState();
         } else {
             Toast.makeText(getContext(), "Error: No se encontró información del curso", Toast.LENGTH_LONG).show();
         }
@@ -103,10 +113,35 @@ public class CourseDetailFragment extends Fragment {
     }
 
     private void enrollInCourse(String courseName) {
-        Toast.makeText(getContext(), "Inscrito en: " + courseName, Toast.LENGTH_SHORT).show();
+        if (course != null) {
+            boolean success = enrollmentService.enrollInCourse(course);
+            if (success) {
+                Toast.makeText(getContext(), "¡Te inscribiste exitosamente en: " + courseName + "!", Toast.LENGTH_LONG).show();
+                // Actualizar el botón para mostrar que ya está inscrito
+                updateEnrollButtonState();
+            } else {
+                Toast.makeText(getContext(), "Ya estás inscrito en: " + courseName, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void shareCourse(String courseName) {
         Toast.makeText(getContext(), "Compartiendo: " + courseName, Toast.LENGTH_SHORT).show();
+    }
+    
+    /**
+     * Actualiza el estado del botón de inscripción según si el usuario ya está inscrito
+     */
+    private void updateEnrollButtonState() {
+        if (course != null && enrollmentService != null) {
+            boolean isEnrolled = enrollmentService.isEnrolledInCourse(course.getName());
+            if (isEnrolled) {
+                btnEnroll.setText("Ya inscrito");
+                btnEnroll.setEnabled(false);
+            } else {
+                btnEnroll.setText("Inscribirse");
+                btnEnroll.setEnabled(true);
+            }
+        }
     }
 }
