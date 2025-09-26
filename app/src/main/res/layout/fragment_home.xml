@@ -16,42 +16,14 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/inputName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Filtrar por nombre" />
-
-    <EditText
-        android:id="@+id/inputProfessor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Filtrar por profesor" />
-
-    <EditText
-        android:id="@+id/inputBranch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Filtrar por sede" />
-
-    <EditText
-        android:id="@+id/inputStartDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Fecha inicio (yyyy-MM-dd)" />
-
-    <EditText
-        android:id="@+id/inputEndDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Fecha fin (yyyy-MM-dd)" />
-
+    <!-- 👇 Un único botón para abrir los filtros -->
     <Button
-        android:id="@+id/btnFilter"
-        android:layout_width="match_parent"
+        android:id="@+id/btnOpenFilters"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aplicar filtros" />
+        android:text="Filtros" />
 
+    <!-- 👇 La lista de clases -->
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"

@@ -10,6 +10,7 @@ import com.example.ritmofit.utils.DateUtils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,9 +54,7 @@ public class CourseRepositoryImpl implements CourseRepository {
         );
     }
 
-
-
-        @Override
+    @Override
     public void getAllByName(String name, DomainCallback<List<Course>> callback) {
         Call<PageResponse<CoursesResponse>> call = api.getAllBy(name);
         enqueueCall(call, callback, "Error al buscar por nombre");
@@ -69,17 +68,23 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     @Override
     public void getAllByDateBetween(String start, String end, DomainCallback<List<Course>> callback) {
-        Call<PageResponse<CoursesResponse>> call = api.getAllByDateBetween(start, end);
+        // 👉 El DatePicker del fragment manda yyyy-MM-dd
+        // Acá lo convertimos a LocalDate y luego a LocalDateTime ISO
+        LocalDate startDate = LocalDate.parse(start, DateUtils.API_DATE_FORMATTER);
+        LocalDate endDate = LocalDate.parse(end, DateUtils.API_DATE_FORMATTER);
+
+        String startIso = startDate.atStartOfDay().format(DateUtils.API_DATETIME_FORMATTER);
+        String endIso = endDate.atTime(23, 59, 59).format(DateUtils.API_DATETIME_FORMATTER);
+
+        Call<PageResponse<CoursesResponse>> call = api.getAllByDateBetween(startIso, endIso);
         enqueueCall(call, callback, "Error al buscar por fecha");
     }
-
 
     @Override
     public void getAllByBranch(String branch, DomainCallback<List<Course>> callback) {
         Call<PageResponse<CoursesResponse>> call = api.getAllByBranch(branch);
         enqueueCall(call, callback, "Error al buscar por sede");
     }
-
 
     // 🔹 Método común para reducir código repetido
     private void enqueueCall(Call<PageResponse<CoursesResponse>> call,
@@ -107,9 +112,6 @@ public class CourseRepositoryImpl implements CourseRepository {
                                   @NotNull Throwable t) {
                 callback.onError(t);
             }
-
         });
-
-
-    }}
-
+    }
+}
