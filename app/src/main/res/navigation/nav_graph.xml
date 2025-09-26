@@ -3,36 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/nav_home">
 
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.ritmofit.home.ui.HomeFragment"
-        android:label="Pokemon List"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_detailFragment"
-            app:destination="@id/courseDetailFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_historialFragment"
-            app:destination="@id/historialFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/courseDetailFragment"
-        android:name="com.example.ritmofit.home.ui.CourseDetailFragment"
-        android:label="Pokemon Detail"
-        tools:layout="@layout/fragment_course_detail">
-        <argument
-            android:name="pokemonId"
-            app:argType="string" />
-    </fragment>
-
+    <!-- Fragmento Home principal -->
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.ritmofit.home.ui.HomeFragment"
         android:label="Inicio"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/courseDetailFragment" />
+    </fragment>
+
+    <!-- Fragmento de detalle del curso -->
+    <fragment
+        android:id="@+id/courseDetailFragment"
+        android:name="com.example.ritmofit.home.ui.CourseDetailFragment"
+        android:label="Detalle del curso"
+        tools:layout="@layout/fragment_course_detail">
+        <argument
+            android:name="course"
+            app:argType="com.example.ritmofit.home.model.Course" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_reservas"

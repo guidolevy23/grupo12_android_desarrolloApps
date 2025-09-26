@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.ritmofit.R;
@@ -91,14 +92,15 @@ public class HomeFragment extends Fragment {
                             professorTextView.setText(course.getProfessor() != null ? course.getProfessor() : "");
                         }
 
+                        // En el método donde navegas al detalle del curso
                         itemCardView.setOnClickListener(v -> {
                             Log.d(TAG, "Course clicked: " + course.getName());
                             Bundle args = new Bundle();
                             args.putParcelable("course", course);
-                            Navigation.findNavController(v).navigate(
-                                    R.id.action_homeFragment_to_detailFragment,
-                                    args
-                            );
+
+                            // Usar findNavController desde el fragmento actual
+                            NavController navController = Navigation.findNavController(v);
+                            navController.navigate(R.id.action_homeFragment_to_detailFragment, args);
                         });
 
                         coursesContainerLayout.addView(itemCardView);
