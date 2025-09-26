@@ -15,12 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.ritmofit.R;
+import com.example.ritmofit.auth.exception.NonValidatedUserException;
 import com.example.ritmofit.auth.model.Login;
 import com.example.ritmofit.auth.repository.TokenRepository;
 import com.example.ritmofit.auth.service.AuthService;
 import com.example.ritmofit.core.DomainCallback;
 import com.example.ritmofit.security.service.SecurityService;
-import com.example.ritmofit.security.ui.SecurityActivity;
 
 import javax.inject.Inject;
 
@@ -68,22 +68,18 @@ public class LoginFragment extends Fragment {
             @Override
             public void onSuccess(String token) {
                 tokenRepository.saveToken(token);
-                
-                // Después del login exitoso, verificar si se requiere autenticación de seguridad
-                if (securityService.shouldRequestAuthentication()) {
-                    // Redirigir a SecurityActivity para autenticación biométrica
-                    Intent intent = new Intent(requireContext(), SecurityActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    requireActivity().finish();
-                } else {
-                    // Si no se requiere seguridad, ir directamente a MainActivity
-                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeActivity);
-                }
+                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeActivity);
             }
 
             @Override
             public void onError(Throwable error) {
+                if (error instanceof NonValidatedUserException) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("email", login.username());
+                    Navigation.findNavController(view)
+                            .navigate(R.id.action_loginFragment_to_otpFragment, bundle);
+                    return;
+                }
                 Toast.makeText(requireContext(), "Login failed: " + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

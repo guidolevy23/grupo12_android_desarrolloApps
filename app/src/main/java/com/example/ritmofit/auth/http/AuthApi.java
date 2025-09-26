@@ -2,6 +2,7 @@ package com.example.ritmofit.auth.http;
 
 import com.example.ritmofit.auth.http.api.LoginRequest;
 import com.example.ritmofit.auth.http.api.LoginResponse;
+import com.example.ritmofit.auth.http.api.OtpRequest;
 import com.example.ritmofit.auth.http.api.RegisterRequest;
 import com.example.ritmofit.auth.http.api.RegisterResponse;
 
@@ -16,4 +17,10 @@ public interface AuthApi {
 
     @POST("/api/auth/register")
     Call<RegisterResponse> register(@Body RegisterRequest request);
+
+    @POST("/api/auth/otp/request")
+    Call<Void> requestOtp(@Body OtpRequest req);
+
+    @POST("/api/auth/otp/validate")
+    Call<Void> verifyOtp(@Body OtpRequest req);
 }
