@@ -47,8 +47,8 @@ public class CourseRepositoryImpl implements CourseRepository {
         return new Course(
                 response.getName(),
                 response.getDescription(),
-                response.getBranch(),
                 response.getProfessor(),
+                response.getBranch(),
                 start,
                 end
         );
