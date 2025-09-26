@@ -91,6 +91,12 @@
             android:layout_height="wrap_content">
 
             <!-- Nombre -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:textStyle="bold"
+                android:paddingTop="16dp" />
             <EditText
                 android:id="@+id/etNombre"
                 android:layout_width="match_parent"
@@ -100,6 +106,11 @@
                 android:paddingTop="16dp" />
 
             <!-- Email -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textStyle="bold" />
             <EditText
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
@@ -110,6 +121,11 @@
                 android:focusable="false"/>
 
             <!-- Dirección -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dirección"
+                android:textStyle="bold" />
             <EditText
                 android:id="@+id/etDireccion"
                 android:layout_width="match_parent"
@@ -118,6 +134,11 @@
                 android:inputType="textPostalAddress" />
 
             <!-- Teléfono -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Teléfono"
+                android:textStyle="bold" />
             <EditText
                 android:id="@+id/etTelefono"
                 android:layout_width="match_parent"
