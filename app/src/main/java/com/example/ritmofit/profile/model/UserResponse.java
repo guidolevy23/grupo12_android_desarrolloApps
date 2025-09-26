@@ -6,5 +6,7 @@ public record UserResponse(
         String password,
         String name,
         String photoUrl,
-        String role
+        String role,
+        String direccion,
+        String telefono
 ) {}

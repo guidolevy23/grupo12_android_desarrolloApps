@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.ritmofit.auth.model.UnAuthenticationEvent;
 import com.example.ritmofit.auth.repository.TokenRepository;
 import com.example.ritmofit.auth.ui.AuthActivity;
+import com.example.ritmofit.security.model.SecurityEvent;
+import com.example.ritmofit.security.service.SecurityService;
+import com.example.ritmofit.security.ui.SecurityActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -17,9 +20,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -33,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     TokenRepository tokenRepository;
-
-    private NavController navController;
+    
+    @Inject
+    SecurityService securityService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         handleAuth();
-
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -54,39 +57,9 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().findFragmentById(R.id.nav_host);
 
         if (navHostFragment != null) {
-            navController = navHostFragment.getNavController();
-
-            // Configurar la navegación con opciones personalizadas
-            bottomNav.setOnItemSelectedListener(item -> {
-                int itemId = item.getItemId();
-
-                // Crear opciones de navegación que limpien la pila
-                NavOptions.Builder navOptionsBuilder = new NavOptions.Builder()
-                        .setLaunchSingleTop(true);
-
-                // Si estamos navegando al home, limpiar la pila hasta la raíz
-                if (itemId == R.id.nav_home) {
-                    navOptionsBuilder.setPopUpTo(R.id.nav_home, false);
-                }
-
-                try {
-                    NavOptions navOptions = navOptionsBuilder.build();
-                    navController.navigate(itemId, null, navOptions);
-                    return true;
-                } catch (Exception e) {
-                    // Fallback a la navegación estándar si hay error
-                    return NavigationUI.onNavDestinationSelected(item, navController);
-                }
-            });
-
-            // Mantener el item seleccionado sincronizado
-            navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-                if (destination.getId() == R.id.nav_home ||
-                        destination.getId() == R.id.nav_reservas ||
-                        destination.getId() == R.id.nav_perfil) {
-                    bottomNav.getMenu().findItem(destination.getId()).setChecked(true);
-                }
-            });
+            NavController navController = navHostFragment.getNavController();
+            NavigationUI.setupWithNavController(bottomNav, navController);
+            bottomNav.setOnItemReselectedListener(item -> {});
         }
     }
 
@@ -96,25 +69,47 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
     private void handleAuth() {
+        // Verificar si viene de una autenticación de seguridad exitosa
+        boolean securityAuthenticated = getIntent().getBooleanExtra("SECURITY_AUTHENTICATED", false);
+        
         if (!tokenRepository.hasToken()) {
             goToLogin();
+        } else if (securityService.shouldRequestAuthentication() && !securityAuthenticated) {
+            goToSecurity();
         }
+        // Si tiene token y no necesita seguridad (o ya se autenticó), continúa normalmente
     }
 
     private void goToLogin() {
         startActivity(new Intent(this, AuthActivity.class));
         finish();
     }
+    
+    private void goToSecurity() {
+        startActivity(new Intent(this, SecurityActivity.class));
+        finish();
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUnAuthenticationEvent(UnAuthenticationEvent event) {
         goToLogin();
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSecurityEvent(SecurityEvent event) {
+        switch (event.getType()) {
+            case SECURITY_REQUIRED:
+                goToSecurity();
+                break;
+            case SECURITY_FAILED:
+                // Manejar fallo de seguridad si es necesario
+                Toast.makeText(this, "Fallo en la autenticación de seguridad", Toast.LENGTH_SHORT).show();
+                break;
+            case SECURITY_SUCCESS:
+                // La seguridad fue exitosa, continuar normalmente
+                // No hacer nada aquí ya que SecurityActivity redirige a MainActivity
+                break;
+        }
     }
 }

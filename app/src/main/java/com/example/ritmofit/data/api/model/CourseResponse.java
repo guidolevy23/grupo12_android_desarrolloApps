@@ -1,5 +1,7 @@
 package com.example.ritmofit.data.api.model;
 
+import java.time.LocalDateTime;
+
 public class CourseResponse {
 
     private String name;
