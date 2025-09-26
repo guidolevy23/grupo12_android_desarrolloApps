@@ -3,7 +3,11 @@ package com.example.ritmofit.home.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Locale;
 
 public class Course implements Parcelable {
 
@@ -25,7 +29,7 @@ public class Course implements Parcelable {
         this.endsAt = endsAt;
     }
 
-    // --- Constructor para Parcel ---
+    // --- Constructor for Parcel ---
     protected Course(Parcel in) {
         name = in.readString();
         description = in.readString();
@@ -35,7 +39,7 @@ public class Course implements Parcelable {
         endsAt = LocalDateTime.parse(in.readString());
     }
 
-    // --- Parcelable ---
+    // --- Parcelable required methods ---
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
@@ -49,6 +53,65 @@ public class Course implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+    // metodo para construir el schedule
+
+
+    public String getSchedule() {
+        if (startsAt == null || endsAt == null) {
+            return "Horario no disponible";
+        }
+
+        try {
+            // Formatear la hora
+            java.time.format.DateTimeFormatter timeFormatter =
+                    java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+
+            // Formatear la fecha
+            java.time.format.DateTimeFormatter dateFormatter =
+                    java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            String startTime = startsAt.format(timeFormatter);
+            String endTime = endsAt.format(timeFormatter);
+            String date = startsAt.format(dateFormatter);
+
+            return String.format("%s - %s (%s)", startTime, endTime, date);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Si falla el formato, mostrar el formato raw
+            return String.format("Horario: %s a %s",
+                    startsAt.toString(), endsAt.toString());
+        }
+    }
+
+    // dificultad y categoria, faltaria agregar en el back
+    public String getDifficulty() {
+        if (name != null) {
+            String lowerName = name.toLowerCase();
+            if (lowerName.contains("principiantes") || lowerName.contains("básico")) {
+                return "Principiante";
+            } else if (lowerName.contains("avanzado") || lowerName.contains("experto")) {
+                return "Avanzado";
+            }
+        }
+        return "Intermedio";
+    }
+
+    public String getCategory() {
+        if (name != null) {
+            String lowerName = name.toLowerCase();
+            if (lowerName.contains("yoga")) {
+                return "Yoga";
+            } else if (lowerName.contains("crossfit")) {
+                return "CrossFit";
+            } else if (lowerName.contains("pilates")) {
+                return "Pilates";
+            } else if (lowerName.contains("hiit")) {
+                return "HIIT";
+            }
+        }
+        return "Fitness";
     }
 
     public static final Creator<Course> CREATOR = new Creator<Course>() {
