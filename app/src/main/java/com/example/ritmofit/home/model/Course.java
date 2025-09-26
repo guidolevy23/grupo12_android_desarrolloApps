@@ -56,44 +56,34 @@ public class Course implements Parcelable {
     }
     // metodo para construir el schedule
 
-    /*public String getSchedule() {
+
+    public String getSchedule() {
         if (startsAt == null || endsAt == null) {
             return "Horario no disponible";
         }
 
         try {
+            // Formatear la hora
+            java.time.format.DateTimeFormatter timeFormatter =
+                    java.time.format.DateTimeFormatter.ofPattern("HH:mm");
 
-            // Determinar el formato basado en el contenido del string
-            SimpleDateFormat inputFormat;
-            if (startsAt.contains("T")) {
-                // Formato ISO: "2025-09-10T08:00:00"
-                inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
-            } else {
-                // Formato SQL: "2025-09-10 08:00:00"
-                inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-            }
+            // Formatear la fecha
+            java.time.format.DateTimeFormatter dateFormatter =
+                    java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            String startTime = startsAt.format(timeFormatter);
+            String endTime = endsAt.format(timeFormatter);
+            String date = startsAt.format(dateFormatter);
 
-            Date startDate = inputFormat.parse(startsAt);
-            Date endDate = inputFormat.parse(endsAt);
+            return String.format("%s - %s (%s)", startTime, endTime, date);
 
-            String startTime = timeFormat.format(startDate);
-            String endTime = timeFormat.format(endDate);
-            String date = dateFormat.format(startDate);
-
-            String schedule = String.format("%s - %s (%s)", startTime, endTime, date);
-
-            return schedule;
-
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-
-            // Si falla el parsing, mostrar el formato raw
-            return String.format("Horario: %s a %s", startsAt, endsAt);
+            // Si falla el formato, mostrar el formato raw
+            return String.format("Horario: %s a %s",
+                    startsAt.toString(), endsAt.toString());
         }
-    }*/
+    }
 
     // dificultad y categoria, faltaria agregar en el back
     public String getDifficulty() {

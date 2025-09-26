@@ -74,8 +74,8 @@ public class CourseDetailFragment extends Fragment {
         courseProfessor.setText("Profesor: " + course.getProfessor());
         courseDescription.setText(course.getDescription());
 
-        // usar el metodo getschedule para mostrar el horario
-
+        // 🔹 usar el metodo getSchedule para mostrar el horario
+        courseSchedule.setText(course.getSchedule());
 
         // Usar los métodos que devuelven valores basados en el nombre del curso
         courseDifficulty.setText(course.getDifficulty());
