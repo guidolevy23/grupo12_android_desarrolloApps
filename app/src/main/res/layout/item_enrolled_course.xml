@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/design_default_color_primary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Nombre del curso -->
+        <TextView
+            android:id="@+id/courseName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre del Curso"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <!-- Información del curso -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="12dp">
+
+            <TextView
+                android:id="@+id/courseProfessor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Profesor: Nombre del Profesor"
+                android:textSize="14sp"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/courseSchedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Horario: Lunes 18:00 - 19:00"
+                android:textSize="14sp"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/courseBranch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sede: Palermo"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Botón para cancelar inscripción -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancelEnrollment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="Cancelar Inscripción"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            app:cornerRadius="8dp" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
