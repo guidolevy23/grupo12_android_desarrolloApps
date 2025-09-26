@@ -139,6 +139,7 @@ public class ProfileFragment extends Fragment {
                         ", telefono=" + result.getTelefono());
                 tvNombre.setText(result.getName());
                 tvEmail.setText(result.getEmail());
+                etEmail.setText(result.getEmail());
                 tvDireccion.setText(result.getDireccion() != null ? result.getDireccion():"—");
                 tvTelefono.setText(result.getTelefono() != null ? result.getTelefono():"—");
             }

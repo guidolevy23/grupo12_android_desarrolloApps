@@ -59,7 +59,7 @@ public class UserRepositoryImpl implements UserRepository {
         call.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<UserResponse> call, @NonNull Response<UserResponse> resp) {
-                if (!resp.isSuccessful() || resp.body() == null) {
+                if (!resp.isSuccessful()) {
                     callback.onError(new Exception("Error al actualizar el usuario"));
                 }
                 callback.onSuccess(null);
