@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,10 +24,8 @@ import com.example.ritmofit.utils.DateUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -39,9 +37,7 @@ public class HomeFragment extends Fragment {
     @Inject
     CourseService courseService;
 
-    private ListView listView;
-    private ArrayAdapter<String> adapter;
-    private List<String> coursesToDisplay;
+    private LinearLayout coursesContainerLayout;
     private Button btnOpenFilters;
 
     @Nullable
@@ -54,45 +50,26 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        listView = view.findViewById(R.id.listView);
+        coursesContainerLayout = view.findViewById(R.id.coursesContainerLayout);
         btnOpenFilters = view.findViewById(R.id.btnOpenFilters);
 
-        coursesToDisplay = new ArrayList<>();
-        adapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_list_item_1,
-                coursesToDisplay);
-        listView.setAdapter(adapter);
+        if (coursesContainerLayout == null) {
+            Toast.makeText(getContext(), "Error: No se encontró el contenedor de cursos", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         // Cargar todos los cursos al inicio
         loadAllCourses();
 
-        // Abrir filtros al presionar el botón
-        btnOpenFilters.setOnClickListener(v -> openFiltersDialog(view));
-
-        listView.setOnItemClickListener((parent, v, position, id) -> {
-            String course = coursesToDisplay.get(position);
-            Bundle args = new Bundle();
-            args.putString("courseId", course);
-            Navigation.findNavController(view)
-                    .navigate(R.id.action_homeFragment_to_detailFragment, args);
-        });
+        // Configurar el botón de filtros
+        btnOpenFilters.setOnClickListener(v -> openFiltersDialog());
     }
 
     private void loadAllCourses() {
-        courseService.getAllByName("", new DomainCallback<>() {
-            @Override
-            public void onSuccess(List<Course> courses) {
-                updateList(courses);
-            }
-
-            @Override
-            public void onError(Throwable error) {
-                showError(error);
-            }
-        });
+        loadByName(""); // Cargar todos los cursos
     }
 
-    private void openFiltersDialog(View parentView) {
+    private void openFiltersDialog() {
         BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
         View sheetView = getLayoutInflater().inflate(R.layout.dialog_filters, null);
         dialog.setContentView(sheetView);
@@ -145,7 +122,6 @@ public class HomeFragment extends Fragment {
         datePicker.show();
     }
 
-
     private void applyFilters(String name, String professor, String branch, String start, String end) {
         if (!name.isEmpty()) {
             loadByName(name);
@@ -156,17 +132,16 @@ public class HomeFragment extends Fragment {
         } else if (!start.isEmpty() && !end.isEmpty()) {
             loadByDate(start, end);
         } else {
-            // ✅ Si no hay filtros → muestro todos los cursos
+            // Si no hay filtros → mostrar todos los cursos
             loadAllCourses();
         }
     }
 
-
     private void loadByName(String name) {
-        courseService.getAllByName(name, new DomainCallback<>() {
+        courseService.getAllByName(name, new DomainCallback<List<Course>>() {
             @Override
             public void onSuccess(List<Course> courses) {
-                updateList(courses);
+                updateCourseCards(courses);
             }
 
             @Override
@@ -177,10 +152,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadByProfessor(String professor) {
-        courseService.getAllByProfessor(professor, new DomainCallback<>() {
+        courseService.getAllByProfessor(professor, new DomainCallback<List<Course>>() {
             @Override
             public void onSuccess(List<Course> courses) {
-                updateList(courses);
+                updateCourseCards(courses);
             }
 
             @Override
@@ -191,10 +166,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadByBranch(String branch) {
-        courseService.getAllByBranch(branch, new DomainCallback<>() {
+        courseService.getAllByBranch(branch, new DomainCallback<List<Course>>() {
             @Override
             public void onSuccess(List<Course> courses) {
-                updateList(courses);
+                updateCourseCards(courses);
             }
 
             @Override
@@ -205,10 +180,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadByDate(String start, String end) {
-        courseService.getAllByDateBetween(start, end, new DomainCallback<>() {
+        courseService.getAllByDateBetween(start, end, new DomainCallback<List<Course>>() {
             @Override
             public void onSuccess(List<Course> courses) {
-                updateList(courses);
+                updateCourseCards(courses);
             }
 
             @Override
@@ -218,19 +193,56 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void updateList(List<Course> courses) {
-        coursesToDisplay.clear();
-        coursesToDisplay.addAll(
-                courses.stream()
-                        .map(course -> String.format("%s - %s - %s - %s",
-                                course.getName(),
-                                course.getProfessor(),
-                                course.getBranch(),
-                                course.getStartsAt().format(DateUtils.DISPLAY_FULL_DATETIME_FORMATTER)
-                        ))
-                        .collect(Collectors.toList())
-        );
-        requireActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
+    private void updateCourseCards(List<Course> courses) {
+        requireActivity().runOnUiThread(() -> {
+            coursesContainerLayout.removeAllViews();
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+
+            if (courses.isEmpty()) {
+                // Mostrar mensaje cuando no hay cursos
+                TextView emptyView = new TextView(getContext());
+                emptyView.setText("No se encontraron cursos");
+                emptyView.setTextSize(16f);
+                emptyView.setPadding(32, 32, 32, 32);
+                emptyView.setGravity(android.view.Gravity.CENTER);
+                coursesContainerLayout.addView(emptyView);
+                return;
+            }
+
+            for (Course course : courses) {
+                // Inflar la tarjeta del curso
+                View itemCardView = inflater.inflate(
+                        R.layout.item_course,
+                        coursesContainerLayout,
+                        false
+                );
+
+                TextView nameTextView = itemCardView.findViewById(R.id.courseName);
+                TextView descTextView = itemCardView.findViewById(R.id.courseDescription);
+                TextView professorTextView = itemCardView.findViewById(R.id.courseProfessor);
+
+                if (nameTextView != null) {
+                    nameTextView.setText(course.getName() != null ? course.getName() : "");
+                }
+                if (descTextView != null) {
+                    descTextView.setText(course.getDescription() != null ? course.getDescription() : "");
+                }
+                if (professorTextView != null) {
+                    professorTextView.setText(course.getProfessor() != null ? course.getProfessor() : "");
+                }
+
+                itemCardView.setOnClickListener(v -> {
+                    Bundle args = new Bundle();
+                    args.putParcelable("course", course);
+                    Navigation.findNavController(v).navigate(
+                            R.id.action_homeFragment_to_detailFragment,
+                            args
+                    );
+                });
+
+                coursesContainerLayout.addView(itemCardView);
+            }
+        });
     }
 
     private void showError(Throwable error) {

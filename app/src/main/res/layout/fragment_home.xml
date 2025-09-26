@@ -16,20 +16,27 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <!-- 👇 Un único botón para abrir los filtros -->
-    <Button
+    <!-- Botón de filtros -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnOpenFilters"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Filtros" />
+        android:layout_gravity="start"
+        android:layout_marginBottom="16dp"
+        android:text="Filtros"
+        style="@style/Widget.Material3.Button.OutlinedButton" />
 
-    <!-- 👇 La lista de clases -->
-    <ListView
-        android:id="@+id/listView"
+    <!-- Contenedor para las CardViews -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp" />
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/coursesContainerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </LinearLayout>

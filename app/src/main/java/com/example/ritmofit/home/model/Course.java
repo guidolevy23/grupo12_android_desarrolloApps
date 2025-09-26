@@ -56,7 +56,7 @@ public class Course implements Parcelable {
     }
     // metodo para construir el schedule
 
-    public String getSchedule() {
+    /*public String getSchedule() {
         if (startsAt == null || endsAt == null) {
             return "Horario no disponible";
         }
@@ -93,7 +93,7 @@ public class Course implements Parcelable {
             // Si falla el parsing, mostrar el formato raw
             return String.format("Horario: %s a %s", startsAt, endsAt);
         }
-    }
+    }*/
 
     // dificultad y categoria, faltaria agregar en el back
     public String getDifficulty() {
