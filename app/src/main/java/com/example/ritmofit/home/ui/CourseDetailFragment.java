@@ -28,6 +28,7 @@ public class CourseDetailFragment extends Fragment {
     private TextView courseName, courseProfessor, courseDescription;
     private TextView courseSchedule, courseDifficulty, courseLocation, courseRequirements;
     private Chip courseCategory;
+    private TextView courseCapacity; // 🔹 NUEVO
     private MaterialButton btnEnroll, btnShare;
     
     @Inject
@@ -74,7 +75,7 @@ public class CourseDetailFragment extends Fragment {
         courseLocation = view.findViewById(R.id.courseLocation);
         courseRequirements = view.findViewById(R.id.courseRequirements);
         courseCategory = view.findViewById(R.id.courseCategory);
-
+        courseCapacity = view.findViewById(R.id.courseCapacity); // 🔹 NUEVO
         btnEnroll = view.findViewById(R.id.btnEnroll);
         btnShare = view.findViewById(R.id.btnShare);
     }
@@ -87,15 +88,30 @@ public class CourseDetailFragment extends Fragment {
         // 🔹 usar el metodo getSchedule para mostrar el horario
         courseSchedule.setText(course.getSchedule());
 
+
         // Usar los métodos que devuelven valores basados en el nombre del curso
         courseDifficulty.setText(course.getDifficulty());
         courseLocation.setText(course.getBranch()); // Usamos branch como ubicación
+
+        // 🔹 NUEVO: Mostrar información del cupo
+        courseCapacity.setText(course.getCapacityInfo());
 
         // Configurar el chip de categoría
         courseCategory.setText(course.getCategory());
 
         // Mantener requisitos estáticos por ahora
         courseRequirements.setText("• Ropa deportiva adecuada\n• Botella de agua\n• Toalla personal");
+
+        // 🔹 NUEVO: Actualizar estado del botón basado en disponibilidad
+        updateEnrollButtonBasedOnCapacity();
+    }
+
+    // 🔹 NUEVO metodo: Actualizar botón según disponibilidad de cupos
+    private void updateEnrollButtonBasedOnCapacity() {
+        if (!course.hasAvailableSpots()) {
+            btnEnroll.setText("Cupo Agotado");
+            btnEnroll.setEnabled(false);
+        }
     }
 
     private void setupButtonListeners() {

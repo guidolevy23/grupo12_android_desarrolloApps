@@ -18,6 +18,10 @@ public class Course implements Parcelable {
     private LocalDateTime startsAt;
     private LocalDateTime endsAt;
 
+    // 🔹 NUEVOS ATRIBUTOS PARA CUPO (valores por defecto temporales)
+    private int totalCapacity = 20;      // Cupo total
+    private int availableSpots = 15;     // Cupos disponibles
+
     // --- Constructor completo ---
     public Course(String name, String description, String professor, String branch,
                   LocalDateTime startsAt, LocalDateTime endsAt) {
@@ -29,14 +33,29 @@ public class Course implements Parcelable {
         this.endsAt = endsAt;
     }
 
+    // 🔹 NUEVO CONSTRUCTOR CON CUPO
+    public Course(String name, String description, String professor, String branch,
+                  LocalDateTime startsAt, LocalDateTime endsAt, int totalCapacity, int availableSpots) {
+        this.name = name;
+        this.description = description;
+        this.professor = professor;
+        this.branch = branch;
+        this.startsAt = startsAt;
+        this.endsAt = endsAt;
+        this.totalCapacity = totalCapacity;
+        this.availableSpots = availableSpots;
+    }
+
     // --- Constructor for Parcel ---
     protected Course(Parcel in) {
         name = in.readString();
         description = in.readString();
         professor = in.readString();
         branch = in.readString();
-        startsAt = LocalDateTime.parse(in.readString()); // lo leemos como String y parseamos
+        startsAt = LocalDateTime.parse(in.readString());
         endsAt = LocalDateTime.parse(in.readString());
+        totalCapacity = in.readInt();        // 🔹 NUEVO
+        availableSpots = in.readInt();       // 🔹 NUEVO
     }
 
     // --- Parcelable required methods ---
@@ -46,8 +65,26 @@ public class Course implements Parcelable {
         dest.writeString(description);
         dest.writeString(professor);
         dest.writeString(branch);
-        dest.writeString(startsAt.toString()); // guardamos como String ISO
+        dest.writeString(startsAt.toString());
         dest.writeString(endsAt.toString());
+        dest.writeInt(totalCapacity);        // 🔹 NUEVO
+        dest.writeInt(availableSpots);       // 🔹 NUEVO
+    }
+
+    // 🔹 NUEVO metodo: Obtener información del cupo
+    public String getCapacityInfo() {
+        return String.format("%d/%d cupos disponibles", availableSpots, totalCapacity);
+    }
+
+    // 🔹 NUEVO metodo: Verificar si hay cupos disponibles
+    public boolean hasAvailableSpots() {
+        return availableSpots > 0;
+    }
+
+    // 🔹 NUEVO metodo: Porcentaje de disponibilidad (para progreso visual)
+    public int getAvailabilityPercentage() {
+        if (totalCapacity == 0) return 0;
+        return (availableSpots * 100) / totalCapacity;
     }
 
     @Override
@@ -133,6 +170,9 @@ public class Course implements Parcelable {
     public String getBranch() { return branch; }
     public LocalDateTime getStartsAt() { return startsAt; }
     public LocalDateTime getEndsAt() { return endsAt; }
+    public int getTotalCapacity() { return totalCapacity; }          // 🔹 NUEVO
+    public int getAvailableSpots() { return availableSpots; }        // 🔹 NUEVO
+
 
     // --- Setters ---
     public void setName(String name) { this.name = name; }
@@ -141,4 +181,6 @@ public class Course implements Parcelable {
     public void setBranch(String branch) { this.branch = branch; }
     public void setStartsAt(LocalDateTime startsAt) { this.startsAt = startsAt; }
     public void setEndsAt(LocalDateTime endsAt) { this.endsAt = endsAt; }
+    public void setTotalCapacity(int totalCapacity) { this.totalCapacity = totalCapacity; }        // 🔹 NUEVO
+    public void setAvailableSpots(int availableSpots) { this.availableSpots = availableSpots; }    // 🔹 NUEVO
 }
