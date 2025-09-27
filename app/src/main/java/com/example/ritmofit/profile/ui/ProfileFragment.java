@@ -150,14 +150,13 @@ public class ProfileFragment extends Fragment {
             public void onSuccess(User result) {
                 if (!isAdded()) return; // el fragment ya no está en pantalla
                 user = result;
-                Log.d("PROFILE", "name=" + result.getName() +
-                        ", direccion=" + result.getDireccion() +
-                        ", telefono=" + result.getTelefono());
                 tvNombre.setText(result.getName());
                 tvEmail.setText(result.getEmail());
                 etEmail.setText(result.getEmail());
                 tvDireccion.setText(result.getDireccion() != null ? result.getDireccion():"—");
+                etDireccion.setText(result.getDireccion() != null ? result.getDireccion():"");
                 tvTelefono.setText(result.getTelefono() != null ? result.getTelefono():"—");
+                etTelefono.setText(result.getTelefono() != null ? result.getTelefono():"");
             }
 
             @Override
