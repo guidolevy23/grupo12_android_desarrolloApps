@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ritmofit.R;
+import com.example.ritmofit.auth.repository.TokenRepository;
 import com.example.ritmofit.core.DomainCallback;
 import com.example.ritmofit.profile.model.UpdateUserRequest;
 import com.example.ritmofit.profile.model.User;
@@ -40,11 +43,14 @@ public class ProfileFragment extends Fragment {
     private View groupEdit;
     private EditText etNombre,etEmail ,etDireccion, etTelefono;
 
-    private Button btnEditarGuardar, btnCancelar;
+    private Button btnEditarGuardar, btnCancelar, btnLogout;
 
     private boolean editing = false;
     @Inject
     UserService service;
+
+    @Inject
+    TokenRepository tokenRepository;
 
     @SuppressLint("MissingInflatedId")
     @Nullable
@@ -67,6 +73,7 @@ public class ProfileFragment extends Fragment {
 
         btnEditarGuardar = v.findViewById(R.id.btnEditarGuardar);
         btnCancelar      = v.findViewById(R.id.btnCancelar);
+        btnLogout = v.findViewById(R.id.btnLogout);
 
         SharedPreferences prefs = requireContext().getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
         tvNombre.setText(prefs.getString("USER_NAME",  "—"));
@@ -84,10 +91,17 @@ public class ProfileFragment extends Fragment {
         btnCancelar.setOnClickListener(view -> exitEditModeWithoutSaving());
 
 
-
-
-
         return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        btnLogout.setOnClickListener(v -> {
+            tokenRepository.clearToken();
+            Navigation.findNavController(view)
+                    .navigate(R.id.action_profileFragment_to_mainActivity);
+        });
     }
 
     private void enterEditMode() {
@@ -101,6 +115,7 @@ public class ProfileFragment extends Fragment {
         groupView.setVisibility(View.GONE);
         groupEdit.setVisibility(View.VISIBLE);
         btnCancelar.setVisibility(View.VISIBLE);
+        btnLogout.setVisibility(View.GONE);
         btnEditarGuardar.setText("Guardar");
     }
 
@@ -109,6 +124,7 @@ public class ProfileFragment extends Fragment {
         groupView.setVisibility(View.VISIBLE);
         groupEdit.setVisibility(View.GONE);
         btnCancelar.setVisibility(View.GONE);
+        btnLogout.setVisibility(View.VISIBLE);
         btnEditarGuardar.setText("Editar");
     }
 

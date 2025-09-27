@@ -69,7 +69,7 @@ public class AuthServiceImpl implements AuthService {
               public void onResponse(@NonNull Call<LoginResponse> call,
                                      @NonNull Response<LoginResponse> response) {
                 if (!response.isSuccessful() || response.body() == null) {
-                    if (response.code() == 403) {
+                    if (response.code() == 422) {
                         callback.onError(new NonValidatedUserException());
                         return;
                     }
