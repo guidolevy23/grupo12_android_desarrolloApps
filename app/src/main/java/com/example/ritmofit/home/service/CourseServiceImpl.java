@@ -20,6 +20,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public void searchCourses(
+            String name,
+            String professor,
+            String branch,
+            String startDate,
+            String endDate,
+            DomainCallback<List<Course>> callback
+    ) {
+        repository.searchCourses(name, professor, branch, startDate, endDate, callback);
+    }
+
+    @Override
     public void getAllByName(String name, DomainCallback<List<Course>> callback) {
         repository.getAllByName(name, callback);
     }

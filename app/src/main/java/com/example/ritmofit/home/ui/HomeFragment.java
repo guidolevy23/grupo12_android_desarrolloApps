@@ -2,6 +2,7 @@ package com.example.ritmofit.home.ui;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -198,8 +199,9 @@ public class HomeFragment extends Fragment {
             coursesContainerLayout.removeAllViews();
             LayoutInflater inflater = LayoutInflater.from(getContext());
 
+            Log.d("HomeFragment", "Updating UI with " + courses.size() + " courses");
+
             if (courses.isEmpty()) {
-                // Mostrar mensaje cuando no hay cursos
                 TextView emptyView = new TextView(getContext());
                 emptyView.setText("No se encontraron cursos");
                 emptyView.setTextSize(16f);
@@ -210,34 +212,26 @@ public class HomeFragment extends Fragment {
             }
 
             for (Course course : courses) {
-                // Inflar la tarjeta del curso
-                View itemCardView = inflater.inflate(
-                        R.layout.item_course,
-                        coursesContainerLayout,
-                        false
-                );
+                View itemCardView = inflater.inflate(R.layout.item_course, coursesContainerLayout, false);
 
                 TextView nameTextView = itemCardView.findViewById(R.id.courseName);
                 TextView descTextView = itemCardView.findViewById(R.id.courseDescription);
                 TextView professorTextView = itemCardView.findViewById(R.id.courseProfessor);
 
                 if (nameTextView != null) {
-                    nameTextView.setText(course.getName() != null ? course.getName() : "");
+                    nameTextView.setText(course.getName() != null ? course.getName() : "Sin nombre");
                 }
                 if (descTextView != null) {
-                    descTextView.setText(course.getDescription() != null ? course.getDescription() : "");
+                    descTextView.setText(course.getDescription() != null ? course.getDescription() : "Sin descripción");
                 }
                 if (professorTextView != null) {
-                    professorTextView.setText(course.getProfessor() != null ? course.getProfessor() : "");
+                    professorTextView.setText(course.getProfessor() != null ? "Prof: " + course.getProfessor() : "");
                 }
 
                 itemCardView.setOnClickListener(v -> {
                     Bundle args = new Bundle();
                     args.putParcelable("course", course);
-                    Navigation.findNavController(v).navigate(
-                            R.id.action_homeFragment_to_detailFragment,
-                            args
-                    );
+                    Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_detailFragment, args);
                 });
 
                 coursesContainerLayout.addView(itemCardView);
